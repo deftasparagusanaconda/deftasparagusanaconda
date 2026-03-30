@@ -1,16 +1,16 @@
-## Hi there 👋
+im a mathematician and a programmer. i make good tools in mathematics:
 
-<!--
-**deftasparagusanaconda/deftasparagusanaconda** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+[daamath][daamath]: coherent maths library specification  
+[pyquantize][pyquantize]: general-purpose number quantization  
+[gapprox][gapprox]: graph approximator. find the function of a graph  
+[filterfitter][filterfitter]: design a network of LTI filters, + iterative optimization + GUI  
+[stringman][stringman]: string manipulation library
 
-Here are some ideas to get you started:
+talk to me on [discord] im quite active there
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+[daamath]: https://github.com/deftasparagusanaconda/daamath
+[pyquantize]: https://github.com/deftasparagusanaconda/pyquantize
+[gapprox]: https://github.com/deftasparagusanaconda/gapprox
+[filterfitter]: https://github.com/deftasparagusanaconda/filterfitter
+[stringman]: https://github.com/deftasparagusanaconda/stringman
+[discord]: https://discordapp.com/users/608255432859058177
