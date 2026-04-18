@@ -4,7 +4,7 @@ hi. im **Lalremruata Chongmang**. my online alias is **daa** (deftasparagusanaco
 
 | name | description | install |
 |-|-|-|
-| [daamath](https://github.com/deftasparagusanaconda/daamath) 🌸 | **cross-language math library specification**: complete operator lattices, configurable behaviour | `pip install daamath` or [install](https://deftasparagusanaconda.github.io/daamath/install/) |
+| [daamath](https://github.com/deftasparagusanaconda/daamath) 🌸 | **cross-language math library specification**: domain-aware arithmetic, configurable behaviour | `pip install daamath` or [install](https://deftasparagusanaconda.github.io/daamath/install/) |
 | [pyquantize](https://github.com/deftasparagusanaconda/pyquantize) | **general numeric/normed-space quantization**: affine lattice, finite set of points, arbitrary norm/metric, generalization of rounded division | `pip install pyquantize` |
 | [gapprox](https://github.com/deftasparagusanaconda/gapprox) | **find the function given a graph**: pareto front optimization, multidimensional i/o, multithreading | `pip install gapprox` |
 | [filterfitter](https://github.com/deftasparagusanaconda/filterfitter) | **GUI application to design filters**: LTI filters, graph-arrangement, iterative optimisation, rich transfer function/s-plane/z-plane/frequency response visualization | [install](https://deftasparagusanaconda.github.io/daamath/install/) |
@@ -51,5 +51,4 @@ also planning to learn geometric algebra and category theory in the future
 - i love genshin impact and minecraft. i also play TF2 (sniper main!!)
 
 # contact
-disturb me freely on [discord](https://discordapp.com/users/608255432859058177)
-or reach me via [email](mailto:deftasparagusanaconda@gmail.com) · [github](https://github.com/deftasparagusanaconda)
+disturb me freely on [discord](https://discordapp.com/users/608255432859058177) or reach me through [email](mailto:deftasparagusanaconda@gmail.com)
