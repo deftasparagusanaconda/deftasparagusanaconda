@@ -1,25 +1,25 @@
 hi. im **Lalremruata Chongmang**. my online alias is **daa** (deftasparagusanaconda). im a self-studied mathematician & programmer, and experienced audio engineer. ill let my works speak for me:
 
-## github projects
+# github projects
 
 | name | description | install |
 |-|-|-|
-| [daamath](https://github.com/deftasparagusanaconda/daamath) 🌸 | **cross-language math library specification**: domain-aware arithmetic, configurable behaviour | `pip install daamath` or [install](https://deftasparagusanaconda.github.io/daamath/install/) |
+| [daamath](https://github.com/deftasparagusanaconda/daamath) 🌸 | **cross-language math library specification**: domain-aware arithmetic, configurable behaviour | [choose your language!](https://deftasparagusanaconda.github.io/daamath/install/) |
 | [pyquantize](https://github.com/deftasparagusanaconda/pyquantize) | **general numeric/normed-space quantization**: affine lattice, finite set of points, arbitrary norm/metric, generalization of rounded division | `pip install pyquantize` |
-| [gapprox](https://github.com/deftasparagusanaconda/gapprox) | **find the function given a graph**: pareto front optimization, multidimensional i/o, multithreading | `pip install gapprox` |
+| [gapprox](https://github.com/deftasparagusanaconda/gapprox) | **pareto-front symbolic regression engine**: pareto front optimization, multidimensional i/o, multithreading | `pip install gapprox` |
 | [filterfitter](https://github.com/deftasparagusanaconda/filterfitter) | **GUI application to design filters**: LTI filters, graph-arrangement, iterative optimisation, rich transfer function/s-plane/z-plane/frequency response visualization | [install](https://deftasparagusanaconda.github.io/daamath/install/) |
 | [stringman](https://github.com/deftasparagusanaconda/stringman) | **string utilities + terminal UI utilities library**: advanced ANSI sequence colour/style/terminal manipulation, advanced string justification, advanced number representation | `pip install stringman` |
 
 🌸 actively developed
 
-## other works
+# other works
 
 | name | description |
 |-|-|
-| [log table](https://) | optimized log table: 5-digit precision, consistent error tolerance |
+| [log table](https://) | optimized log table: 5-digit precision, consistent error/tolerance |
 | [projective datatype](https://) | floating point alternative: projective geometry, cheap reciprocal via bit-flip, smooth precision distribution |
 
-## future works:
+# future works:
 
 | name | description |
 |-|-|
@@ -40,7 +40,7 @@ also planning to learn geometric algebra and category theory in the future
 - soldering, multimeters, electronics repair
 
 # quirks
-- i use arch btw. and wezterm and neovim
+- i use arch btw. and wezterm and neovim. 
 - i can type 110 steady/160 burst wpm on colemak-eD
 - independently rediscovered gram-schmidt process from trying to generalize fourier transform from sine waves to triangle waves. i generalized this to calculate orthogonal function bases as well.
 - independently rediscovered grothendieck group completion from trying to create new sign directions besides +ve and -ve
