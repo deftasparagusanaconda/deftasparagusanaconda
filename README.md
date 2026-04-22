@@ -1,4 +1,4 @@
-hi. im **Lalremruata Chongmang**. my online alias is **daa** (deftasparagusanaconda). im a self-studied mathematician & programmer, and experienced audio engineer. ill let my works speak for me:
+hi, im **lalremruata chongmang**. you can call me **daa**. im a self-studied mathematician & programmer and experienced audio engineer from mizoram, 21 years old and currently in my second year of a BE in CSE
 
 # github projects
 
@@ -50,5 +50,13 @@ also planning to learn geometric algebra and category theory in the future
 - i make music with FL Studio!
 - i love genshin impact and minecraft. i also play TF2 (sniper main!!)
 
+<!--
+# johari window
+
+|                | i know | i dont know |
+| -------------- | ------ | ----------- |
+| they know      |  |  |
+| they dont know |  |  |
+-->
 # contact
 disturb me freely on [discord](https://discordapp.com/users/608255432859058177) or reach me through [email](mailto:deftasparagusanaconda@gmail.com)
