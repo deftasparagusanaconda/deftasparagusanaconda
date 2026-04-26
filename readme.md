@@ -59,4 +59,4 @@ also planning to learn geometric algebra and category theory in the future
 | they dont know |  |  |
 -->
 # contact
-disturb me freely on [discord](https://discordapp.com/users/608255432859058177) or reach me through [email](mailto:deftasparagusanaconda@gmail.com)
+disturb me freely on [discord](https://discord.com/users/608255432859058177) or reach me through [email](mailto:deftasparagusanaconda@gmail.com). i also post my music on [youtube](https://youtube.com/@lalremruatachongmang).
