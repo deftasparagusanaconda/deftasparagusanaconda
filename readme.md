@@ -16,7 +16,7 @@ hi, im **lalremruata chongmang**. you can call me **daa**. im a self-studied mat
 
 | name | description |
 |-|-|
-| [log table](https://) | optimized log table: 5-digit precision, consistent error/tolerance |
+| [log_table](https://github.com/deftasparagusanaconda/log_table) | optimized log table: consistent error/tolerance |
 | [projective datatype](https://) | floating point alternative: projective geometry, cheap reciprocal via bit-flip, smooth precision distribution |
 
 # future works:
