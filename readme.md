@@ -32,8 +32,8 @@ also planning to learn geometric algebra and category theory in the future
 # strengths
 - languages: fluent english & mizo, conversational hindi, learning japanese
 - wide mathematical vocabulary: hyperoperations, hypercomplex numbers, clifford algebra, …
-- programming languages: strong with python, familiar with C & C++ & Java & SQL, currently learning haskell & lean, will learn julia & matlab & JS
-- digital signal processing: IIR/FIR filter/convolution design, dynamics processing, fourier/laplace/wavelet transform, …
+- programming languages: strong with python, familiar with C, C++, Java, SQL, currently learning haskell & lean, will learn julia, matlab, JS
+- digital signal processing: IIR/FIR filter/convolution/impulse design, dynamics processing, fourier/laplace/wavelet transform, …
 - mixing/mastering: 10 years of experience with FL Studio
 - live audio mixing: analog/digital mixers, FOH/A1 engineer, band management, …
 - system tuning: frequency response, transient response, acoustic design, speaker placement, …
@@ -58,5 +58,6 @@ also planning to learn geometric algebra and category theory in the future
 | they know      |  |  |
 | they dont know |  |  |
 -->
+
 # contact
 disturb me freely on [discord](https://discord.com/users/608255432859058177) or reach me through [email](mailto:deftasparagusanaconda@gmail.com). i also post my music on [youtube](https://youtube.com/@lalremruatachongmang).
