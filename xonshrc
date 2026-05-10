@@ -1,0 +1,722 @@
+import time
+
+_boot = time.perf_counter()
+
+def mark(label):
+	now = time.perf_counter()
+	print(f"[{(now-_boot)*1000:6.1f} ms] {label}")
+
+mark('importing packages…')
+
+import os, sys, socket, psutil, hsluv, wcwidth, strip_ansi, stringman as sm, termios, tty, re
+#from tkinter import Tk as _Tk
+from typing import Literal	# for progress_bar
+#from hsluv import hpluv_to_rgb	# for intensity_fg
+
+#mark('loading xontribs…')
+#xontrib load coreutils #autovox vox voxapi
+
+mark('setting environment variables…')
+
+$XONSH_SHOW_TRACEBACK = True
+$ENABLE_ASYNC_PROMPT = True
+#$UPDATE_COMPLETIONS_ON_KEYPRESS = True
+
+$GIT_EDITOR = 'nvim'
+$EDITOR = 'nvim'
+$COMPLETIONS_MENU_ROWS = 10
+#$XONSH_APPEND_NEWLINE = False
+#execx($(zoxide init xonsh), 'exec', __xonsh__.ctx, filename='zoxide')
+#$UPDATE_PROMPT_ON_KEYPRESS = True
+#$PROMPT_REFRESH_INTERVAL = 1
+$XONSH_STYLE_OVERRIDES['bottom-toolbar'] = 'noreverse'
+#import prompt_toolkit.styles.defaults as defstyle
+#defstyle.PROMPT_TOOLKIT_STYLE.append(('bottom-toolbar','noreverse'))
+#defstyle.PROMPT_TOOLKIT_STYLE.append(('completion-menu','bg:#444444 #eeeeee'))
+$PATH.insert(0, '/home/daa/.local/xonsh-env/bin')
+$PATH.insert(1, '/home/daa/.local/xonsh-env/xbin')
+
+# Coloured man page support
+# using 'less' env vars (format is 'ESC[<brightness>;<colour>m')
+$LESS_TERMCAP_mb = "\033[01;31m"     # begin blinking
+$LESS_TERMCAP_md = "\033[01;31m"     # begin bold
+$LESS_TERMCAP_me = "\033[0m"         # end mode
+$LESS_TERMCAP_so = "\033[01;44;36m"  # begin standout-mode (bottom of screen)
+$LESS_TERMCAP_se = "\033[0m"         # end standout-mode
+$LESS_TERMCAP_us = "\033[00;36m"     # begin underline
+$LESS_TERMCAP_ue = "\033[0m"         # end underline
+
+mark('initializing variables…')
+light_theme = False
+# for prompts
+#_resolution_getter = _Tk()
+prompt_count = -1
+#line_count = 0
+default_network_interface = 'wlan0'
+rx_old = 0
+tx_old = 0
+net_io_counters_old = psutil._common.snetio(0,0,0,0,0,0,0,0)
+disk_io_counters_old = psutil._pslinux.sdiskio(0,0,0,0,0,0,0,0,0)
+# this is ass programming. this is probably pretty janky. this is probably very prone to... breakage. why do you do this?!? it *is* kinda funny though
+time_old = time.time_ns()
+core_count = psutil.cpu_count()
+gpu_mhz_high = 2000
+energy_low = 0
+energy_high = 45
+power_low = 0
+power_high = 45
+time_hours_low = 0
+time_hours_high = 8
+cpu_mhz_low = 0
+cpu_mhz_high = 4500
+temp_low = 0
+temp_high = 100
+show_cpu = True
+show_gpu = True
+show_mem = True
+show_ssd = True
+show_net = True
+show_bat = True
+show_sys = True
+show_env = True
+
+# shortcuts -------------------------------------------------------------------
+
+mark('defining shortcuts…')
+
+aliases['gte'] = ['gnome-text-editor']
+
+@aliases.register
+def _iga():
+	try: 
+		del ga
+	except UnboundLocalError:
+		pass
+	finally:
+		import gapprox as ga
+		__xonsh__.ctx['ga'] = ga
+
+@aliases.register
+def _ipq():
+	try: 
+		del pq
+	except UnboundLocalError:
+		pass
+	finally:
+		import pyquantize as pq
+		__xonsh__.ctx['pq'] = pq
+
+@aliases.register
+def _idm():
+	try: 
+		del dm
+	except UnboundLocalError:
+		pass
+	finally:
+		import daamath as dm
+		__xonsh__.ctx['dm'] = dm
+
+@aliases.register
+def _ism():
+	try: 
+		del sm
+	except UnboundLocalError:
+		pass
+	finally:
+		import stringman as sm
+		__xonsh__.ctx['sm'] = sm
+
+@aliases.register
+def _iff():
+	try: 
+		del ff
+	except UnboundLocalError:
+		pass
+	finally:
+		import filterfitter as ff
+		__xonsh__.ctx['ff'] = ff
+
+@aliases.register
+def _iall():
+	_iga()
+	_ipq()
+	_idm()
+	_ism()
+	_iff()
+
+#aliases['iall'] = ['iga', 'ipq;', 'idm;', 'ism;', 'iff']
+aliases['cdga'] = ['cd', '~/Projects/gapprox/src/gapprox/']
+aliases['cdpq'] = ['cd', '~/Projects/pyquantize/src/']
+aliases['cddm'] = ['cd', '~/Projects/daamath/']
+aliases['cdsm'] = ['cd', '~/Projects/stringman/python/src/stringman/']
+aliases['cdff'] = ['cd', '~/Projects/filterfitter/src/filterfitter/']
+aliases['ptga'] = ['pytest', '~/Projects/gapprox/tests']
+aliases['ptpq'] = ['pytest', '~/Projects/pyquantize/tests']
+aliases['ptdm'] = ['pytest', '~/Projects/daamath/python/tests']
+aliases['ptsm'] = ['pytest', '~/Projects/stringman/tests']
+aliases['ptff'] = ['pytest', '~/Projects/filterfitter/tests']
+
+def _y(args):
+	tmp = $(mktemp -t "yazi-cwd.XXXXXX")
+	args.append(f"--cwd-file={tmp}")
+	#$[!yazi @(args)]
+	$[yazi @(args)]
+	with open(tmp) as f:
+		cwd = f.read()
+	if cwd != $PWD and os.path.isdir(cwd):
+		cd @(cwd)
+	rm -f -- @(tmp)
+
+aliases["y"] = _y
+
+# ------------------------------------------------------------------------------
+
+mark('defining GUI helpers…')
+
+#def arrow_div(left, right):
+#	return sm.ansi.colourise('', left, right)
+
+reset = '\033[0m'
+reset_colour = '\033[0m'
+
+fg_color = {
+'none'     : '',
+'trueblack': '\033[38;2;0;0;0m',
+'black'    : '\033[30m',
+'red'      : '\033[31m',
+'green'    : '\033[32m',
+'yellow'   : '\033[33m',
+'blue'     : '\033[34m',
+'magenta'  : '\033[35m',
+'cyan'     : '\033[36m',
+'white'    : '\033[37m',
+'reset'    : '\033[39m',
+'brblack'  : '\033[90m',
+'brred'    : '\033[91m',
+'brgreen'  : '\033[92m',
+'bryellow' : '\033[93m',
+'brblue'   : '\033[94m',
+'brmagenta': '\033[95m',
+'brcyan'   : '\033[96m',
+'brwhite'  : '\033[97m',
+#'truewhite': '\033[38;2;255;255;255m'
+}
+
+bg_color = {
+'none'     : '',
+#'trueblack': '\033[48;2;0;0;0m',
+'black'    : '\033[40m',
+'red'      : '\033[41m',
+'green'    : '\033[42m',
+'yellow'   : '\033[43m',
+'blue'     : '\033[44m',
+'magenta'  : '\033[45m',
+'cyan'     : '\033[46m',
+'white'    : '\033[47m',
+'reset'    : '\033[49m',
+'brblack'  : '\033[100m',
+'brred'    : '\033[101m',
+'brgreen'  : '\033[102m',
+'bryellow' : '\033[103m',
+'brblue'   : '\033[104m',
+'brmagenta': '\033[105m',
+'brcyan'   : '\033[106m',
+'brwhite'  : '\033[107m',
+#'truewhite': '\033[48;2;255;255;255m'
+}
+
+hues = ['brred', 'bryellow', 'brgreen', 'brcyan', 'brblue', 'brmagenta']
+fg_hues = [fg_color[hue] for hue in hues]
+bg_hues = [bg_color[hue] for hue in hues]
+
+#separator = sm.ansi.colourise('│', 'black')
+separator = '\x1b[30m│\x1b[39m'
+
+# regex to match ANSI escape sequences
+"""
+def intensity_fg_old(fraction, low = 0, high = 1, reverse = False):
+	fraction = (fraction - low) / (high - low)
+	hue = fraction * 240 if reverse else 240 - fraction * 240
+	r,g,b = hpluv_to_rgb((hue, 100, 40 if $LIGHT_MODE else 76))
+	fg = round(r*255), round(g*255), round(b*255)
+	return sm.ansi.colour(fg)
+"""
+intensity_hues = [fg_color[hue] for hue in ['brblue', 'brcyan', 'brgreen', 'bryellow', 'brred']]
+intensity_hues_reverse = list(reversed(intensity_hues))
+def intensity_fg(fraction, low = 0, high = 1, reverse = False):
+	fraction = (fraction - low) / (high - low)
+	hue = int(fraction * 5) % 5	
+	return intensity_hues_reverse[hue] if reverse else intensity_hues[hue]
+
+def intensity_bar(fraction, low = 0, high = 1, fill:str='none', back:str='none', color=True, reverse_color=False):
+	if not (low <= fraction <= high):
+		raise ValueError("fraction must be in [low, high]")
+	fraction = (fraction - low) / (high - low)
+	index = round(min(max(fraction, 0.0), 1.0) * 8)
+	if reverse_color:
+		return f"{intensity_fg(fraction) if color else fg_color[fill]}{bg_color[back]}{' ▁▂▃▄▅▆▇█'[index]}"
+	else:
+		return f"{intensity_fg(fraction) if color else fg_color[fill]}{bg_color[back]}{' ▁▂▃▄▅▆▇█'[index]}"
+
+_EIGHTH_LEFT = ' ▏▎▍▌▋▊▉█'
+_EIGHTH_RIGHT = ' ▕🮇🮈▐🮉🮊🮋█'
+_EIGHTH_LOWER = ' ▁▂▃▄▅▆▇█'
+_EIGHTH_UPPER = ' ▔🮂🮃▀🮄🮅🮆█'
+
+def progress_bar(
+		fraction: int | float, 
+		length: int = 1,
+		fg: Literal['intensity'] | any = 'intensity', 
+		bg: Literal['intensity'] | any = None,
+		direction: Literal['up', 'down', 'left', 'right'] = 'right'
+		) -> str:
+	
+	filled, remainder = divmod(fraction * length, 1)
+	filled = int(filled)
+	index = round(remainder * 8)
+
+	if direction == 'right':
+		result = _EIGHTH_LEFT[-1] * filled + ('' if index == 0 else _EIGHTH_LEFT[index])
+		return result.ljust(length)
+	elif direction == 'left':
+		result = ('' if index == 0 else _EIGHTH_RIGHT[index]) + _EIGHTH_RIGHT[-1] * filled
+		return result.rjust(length)
+	elif direction == 'up':
+		result = _EIGHTH_LOWER[-1] * filled + ('' if index == 0 else _EIGHTH_LOWER[index])
+		return result.ljust(length)
+	elif direction == 'down':
+		result = _EIGHTH_UPPER[-1] * filled + ('' if index == 0 else _EIGHTH_UPPER[index])
+		return result.ljust(length)
+	else:
+		raise ValueError("direction should be one of {'up', 'down', 'left', 'right'}")
+"""
+def get_time_colour() -> str:
+	'return a color based on daily time'
+	_,_,_,h,m,s,_,_,_ = time.localtime()
+	seconds = s * 60 ** 0 + m * 60 ** 1 + h * 60 ** 2
+	return hsluv.hpluv_to_hex((seconds / 60 / 60 / 24, 100, 40 if $LIGHT_MODE else 76))
+"""
+def find_hwmon(name: str) -> str:
+	'return path to hwmon device with matching name'
+	for d in os.listdir("/sys/class/hwmon"):
+		p = f"/sys/class/hwmon/{d}/name"
+		try:
+			with open(p) as f:
+				if f.read().strip() == name:
+					return f"/sys/class/hwmon/{d}"
+		except FileNotFoundError:
+			pass
+	raise FileNotFoundError(f"no hwmon named {name!r}")
+
+_ANSI = re.compile(r'\x1b\[[0-9;]*[mGKHF]')
+def visible_width(text):
+    return wcwidth.wcswidth(_ANSI.sub('', text))
+
+def justify_visible(size: int, *args):
+	return args[0] + ' '*(size - visible_width(args[0]) - visible_width(args[1])) + args[1]
+
+def pretty_pwd(length: int, pad: bool = True) -> str:
+	pwd = $PWD + ('' if $PWD == '/' else '/')
+	pwd_len = len(pwd) 
+	if pwd_len > length:
+		pwd = '…' + pwd[1-length:]
+		pwd_len = length
+	pwd_pad_amount = length - pwd_len
+	pwd_left_pad_amount = pwd_pad_amount//2
+	pwd_right_pad_amount = pwd_pad_amount - pwd_left_pad_amount
+	
+	dirs = str()
+	for index, dir in enumerate(pwd.split('/')[:-1]):
+		dirs += f"{fg_hues[index % 6]}{dir}/"
+
+	pwd_left_pad = (fg_color['brblack'] + ('─'*length + ' ')[-pwd_left_pad_amount:]) if pwd_left_pad_amount != 0 else ''
+	pwd_right_pad = fg_color['brblack'] + (' ' + '─'*length)[:pwd_right_pad_amount]
+
+	if pad:
+		return f"{pwd_left_pad}{dirs}{pwd_right_pad}{reset}"
+	else:
+		return dirs + reset
+
+mark('defining stats scrapers…')
+
+# quick. μs
+def net_stats(interface: str = default_network_interface):
+	global net_io_counters_old
+	"""
+	with open(f"/sys/class/net/{interface}/statistics/rx_bytes") as file:
+		rx_new: int = int(file.readline())
+	with open(f"/sys/class/net/{interface}/statistics/tx_bytes") as file:
+		tx_new: int = int(file.readline())
+
+	time_new = time.time_ns()
+	time_delta = time_new - time_old
+	rx_delta = rx_new - rx_old
+	tx_delta = tx_new - tx_old
+	time_old = time_new
+	rx_old = rx_new
+	tx_old = tx_new
+	rx_rate = rx_delta / time_delta
+	tx_rate = tx_delta / time_delta
+	
+
+	with open(f"/sys/class/net/{interface}/address") as file:
+		mac_address_str = file.readline()[:-1]
+
+	ip_address_str = socket.gethostbyname(socket.getfqdn())
+	"""
+	
+	new = psutil.net_io_counters()
+	delta = psutil._common.snetio(*(new - old for new, old in zip(new, net_io_counters_old)))
+	net_io_counters_old = new
+
+	rx = f"{delta.packets_recv}+{delta.dropin} {delta.bytes_recv}B ({delta.errin})"
+	tx = f"{delta.packets_sent}+{delta.dropout} {delta.bytes_sent}B ({delta.errout})"
+
+	net_if_addr = psutil.net_if_addrs()[interface]
+	mac_address_str = ' '.join(addr.address for addr in net_if_addr if addr.family == 17)
+	ip_address_str = ' '.join(addr.address for addr in net_if_addr if addr.family == 2)
+
+	return f"{interface}: {mac_address_str} @ {ip_address_str}" #[{rx} ▲▼ {tx}]"
+
+def ssd_stats(*, temp: float = None, temp_low = temp_low, temp_high = temp_high) -> str:
+	global disk_io_counters_old
+	if temp is None:
+		temp = psutil.sensors_temperatures()['nvme'][0].current
+	
+	temp_str = f"{intensity_fg(temp, temp_low, temp_high)}{round(temp)}°C{reset}"
+	
+	new = psutil.disk_io_counters()
+	delta = psutil._pslinux.sdiskio(*(new - old for new, old in zip(new, disk_io_counters_old)))
+	disk_io_counters_old = new
+	
+	busy_time_str = f"{delta.busy_time}ms"
+	read_str = f"{delta.read_merged_count} ({delta.read_count}) {delta.read_bytes}B {delta.read_time}ms"
+	write_str = f"{delta.write_merged_count} ({delta.write_count}) {delta.write_bytes}B {delta.write_time}ms"
+	
+	return f"{temp_str} {busy_time_str}" #[{read_str} ▲▼ {write_str}]"
+def sys_stats(*, temp: float = None, temp_low = temp_low, temp_high = temp_high) -> str:
+	'stats about the system, excluding the environment'
+	venv_str = f"({$VIRTUAL_ENV.split('/')[-1]}) | " if 'VIRTUAL_ENV' in ${...} else ''
+	LAV_str = ' '.join(intensity_fg(load/core_count) + str(round(load, 1)) for load in os.getloadavg()) + reset
+
+	with open(f"/etc/os-release") as f:
+		os_stats = dict((line[:-1]).split('=', 1) for line in f.readlines())
+	os_str = '\x1b[' + os_stats['ANSI_COLOR'][1:-1] + 'm' + os_stats['PRETTY_NAME'][1:-1] + reset
+
+	with open('/proc/sys/kernel/osrelease') as file:
+		kernel_str = file.readline()[:-1]
+
+	if temp is None:
+		with open(f"{find_hwmon('acpitz')}/temp1_input") as file:
+			acpitz = int(file.readline())/1000
+	else:
+		acpitz = temp
+	acpitz_str = f"{intensity_fg(acpitz, temp_low, temp_high)}{round(acpitz)}°C{reset}"
+
+
+	# window size
+	fd = sys.stdin.fileno()
+	old = termios.tcgetattr(fd)
+	try:
+	    tty.setraw(fd)
+	    # ask for window pixel size
+	    sys.stdout.write("\033[14t")
+	    sys.stdout.flush()
+	    buf = ""
+	    while not buf.endswith("t"):
+	        buf += sys.stdin.read(1)
+	finally:
+	    termios.tcsetattr(fd, termios.TCSADRAIN, old)
+	# buf should look like: ESC[4;height;widtht
+	m = re.match(r"\x1b\[4;(\d+);(\d+)t", buf)
+	if not m:
+		raise RuntimeError(f"unexpected reply: {repr(buf)}")
+	window_y, window_x = map(int, m.groups())
+	window_str = f'{window_x}x{window_y}'
+
+	#wmm, hmm = _resolution_getter.winfo_screenmmwidth(), _resolution_getter.winfo_screenmmheight()
+	
+	return f"{acpitz_str} {LAV_str} {os_str} {kernel_str}"
+
+# quick. 714 μs
+def env_stats() -> str:
+	'stats about the environment, excluding the system'
+	#terminal_str = $TERM_PROGRAM
+	shell_str = $SHELL.split('/')[-1]
+	xonsh_ver = $XONSH_VERSION
+	python_str = 'python ' + sys.version.split()[0]
+
+	return f"xonsh {$XONSH_VERSION} ({python_str}) on {shell_str}"
+
+# slow. 2.71ms
+def bat_stats(min_energy = power_low, max_energy = power_high) -> str:
+	with open(f"{find_hwmon('BAT0')}/device/uevent") as f:
+		stats = dict((line[:-1]).split('=', 1) for line in f.readlines())
+	
+	psutil_stats = psutil.sensors_battery()
+	
+	with open(f"{find_hwmon('ADP0')}/device/online") as file:
+		power_supply_status_str = (fg_color['bryellow'] + ' ⌁') if bool(int(file.readline())) else ''
+	status = stats['POWER_SUPPLY_STATUS']
+	#status_str = f"{fg_color['brred']}▼{reset}" if status == 'Discharging' else (f"{fg_color['brgreen']}▲{reset}" if status=='Charging' else status)
+	status_str = reset_colour + status
+	energy_float = int(stats['POWER_SUPPLY_ENERGY_NOW'])/1000000
+	power_float = int(stats['POWER_SUPPLY_POWER_NOW'])/1000000
+	voltage_float = int(stats['POWER_SUPPLY_VOLTAGE_NOW'])/1000000
+	capacity = psutil_stats.percent
+
+	if power_float == 0:
+		time_str = '0:00'
+	else:
+		mins: int = round(energy_float/power_float*60)
+		whole, part = divmod(mins, 60)
+		time_str = f"{whole}:{str(part).rjust(2, '0')}" + reset_colour
+
+	voltage_str = f"{round(voltage_float, 3)}V"
+	energy_str = f"{intensity_fg(energy_float, min_energy, max_energy, reverse = True)}{round(energy_float,3)}Wh{reset}"
+	power_str = f"{round(power_float,3)}W{reset}"
+	capacity_str = f"{intensity_fg(1-int(capacity)/100)}{round(capacity*10)}‰" + reset_colour
+
+	return f"{capacity_str} {time_str}={energy_str}/{power_str}{power_supply_status_str} {status_str} {voltage_str}{reset}"
+
+# slow. 5.27ms
+def cpu_stats(temp: float = None, temp_low = temp_low, temp_high = temp_high, min_mhz = cpu_mhz_low, max_mhz = cpu_mhz_high) -> str:
+	hz_list = list()
+	with open('/proc/cpuinfo') as file:
+		for line in file:
+			if 'cpu MHz' in line:
+				key, value = line.split(':', 1)
+				hz_list.append(float(value.strip()))
+	#hz = [min(hz_list), sum(hz_list)/len(hz_list), max(hz_list)]
+	#hz_str = ' '.join(intensity_fg(hz/max_mhz) + str(round(hz/1000, 1)) for hz in hz)
+	bars = ''.join(intensity_bar(hz, min_mhz, max_mhz) for hz in hz_list)
+
+	current_hz, min_hz, max_hz = psutil.cpu_freq()
+	# slow. 2.5ms
+	min_hz_str = f"{intensity_fg(min_hz, min_mhz, max_mhz)}{round(min_hz)}"
+	current_hz_str = f"{intensity_fg(current_hz, min_mhz, max_mhz)}{round(current_hz)}"
+	max_hz_str = f"{intensity_fg(max_hz, min_mhz, max_mhz)}{round(max_hz)}"
+	hz_str = f"{current_hz_str}MHz {reset}∈ [{min_hz_str}MHz{reset}, {max_hz_str}MHz{reset}]"
+
+	per_mille = psutil.cpu_percent()*10
+	per_mille_str = f"{intensity_fg(per_mille, 0, 1000)}{round(per_mille)}‰{reset}"
+	
+	with open(f"{find_hwmon('k10temp')}/temp1_input")as file:
+		temp = int(file.readline())/1000 if temp is None else temp
+	temp_str = f"{intensity_fg(temp, temp_low, temp_high)}{round(temp)}°C"
+
+	return f"{temp_str} {per_mille_str} {hz_str} {bars}"
+
+def gpu_stats(temp: float = None, max_mhz = gpu_mhz_high, max_power = power_high, gpu_name = 'amdgpu') -> str:
+	if temp is None:
+		with open(f"{find_hwmon(gpu_name)}/temp1_input") as file:
+			edge = int(file.readline())/1000
+	else:
+		edge = temp
+	
+	with open(f"{find_hwmon(gpu_name)}/power1_input") as file:
+		PPT = int(file.readline())/1000000
+	with open(f"{find_hwmon(gpu_name)}/freq1_input") as file:
+		sclk = int(file.readline())/1000000
+	with open(f"{find_hwmon(gpu_name)}/device/mem_info_vram_used") as file:
+		vram_used = int(file.readline())/1024/1024
+	with open(f"{find_hwmon(gpu_name)}/device/mem_info_vram_total") as file:
+		vram_total = int(file.readline())/1024/1024
+	with open(f"{find_hwmon(gpu_name)}/device/mem_info_gtt_used") as file:
+		gtt_used = int(file.readline())/1024/1024
+	with open(f"{find_hwmon(gpu_name)}/device/mem_info_gtt_total") as file:
+		gtt_total = int(file.readline())/1024/1024
+	
+	edge_str = intensity_fg(edge/100) + str(round(edge)) + '°C'
+	PPT_str = intensity_fg(PPT/max_power) + str(round(PPT))
+	sclk_str = intensity_fg(sclk/max_mhz) + str(round(sclk))
+	vram_str = f"{intensity_fg(vram_used/vram_total)}{round(vram_used)}/{round(vram_total)}MiB"
+	gtt_str = f"{intensity_fg(gtt_used/gtt_total)}{round(gtt_used)}/{round(gtt_total)}MiB"
+
+	return f"{edge_str} {sclk_str}MHz {PPT_str}W {vram_str} {gtt_str}"
+
+def dir_stats() -> str:
+	
+	dirs = []
+	files = []
+	others = []
+
+	for entry in os.scandir():
+		if entry.is_dir():
+			dirs.append('\x1b[34m' + entry.name)
+		elif entry.is_file():
+			files.append('\x1b[32m' + entry.name)
+		else:
+			others.append('\x1b[31m' + entry.name)
+			
+	pwd = pretty_pwd(length = 999, pad = False)
+
+	return f'{pwd} {separator} 🗀 {len(dirs)}, 🗎 {len(files)}, ? {len(others)}'
+
+# quick. 462μs
+def mem_stats() -> str:
+	mem = psutil._pslinux.svmem(*(entry/1024/1024 for entry in psutil.virtual_memory()))
+	swap = psutil._common.sswap(*(entry/1024/1024 for entry in psutil.swap_memory()))
+
+	mem_private = mem.total - mem.available
+	mem_public = mem.available - mem.free
+	swap_used = swap.total - swap.free
+
+	mem_str = f"{intensity_fg(mem_private, 0, mem.total)}({round(mem_private)}+{round(mem_public)})/{round(mem.total)}"
+	swap_str = f"{intensity_fg(swap_used, 0, swap.total)}{round(swap_used)}/{round(swap.total)}"
+
+	return f"{mem_str} MiB{reset} + {swap_str} MiB{reset}"
+	
+	"""
+	with open('/proc/meminfo') as f:
+		lines = f.readlines()
+	stuff = dict()
+	for line in lines:
+		splitted = line.split()
+		stuff[splitted[0][:-1]] = int(splitted[1])
+
+	mem_private = stuff['MemTotal'] - stuff['MemAvailable']
+	mem_public = stuff['MemAvailable'] - stuff['MemFree']
+
+	swap_used = stuff['SwapTotal'] - stuff['SwapFree']
+
+	mem_str = f"{intensity_fg(mem_private / stuff['MemTotal'])}({round(mem_private/1024)}+{round(mem_public/1024)})/{round(stuff['MemTotal']/1024)}"
+	swap_str = f"{intensity_fg(swap_used / stuff['SwapTotal'])}{round(swap_used/1024)}/{round(stuff['SwapTotal']/1024)}"
+
+	return f"{mem_str} MiB{reset} + {swap_str} MiB{reset}"
+	"""
+
+def my_prompt_bootloader():
+	'failsafe, in case the big ass my_prompt() function fails'
+	try:
+		return my_prompt()
+	except:
+		traceback.print_exc()  # Prints the full traceback to stderr
+		
+		return '> '
+
+mark('defining prompt…')
+
+def my_prompt() -> str:
+	'custom script for xonsh prompt'
+
+	global prompt_count
+	
+	$TITLE = f"xonsh │ {$USER}@{$HOSTNAME} │ {$PWD}"
+	
+	prompt_count += 1
+	
+	cmd_return = getattr(__xonsh__.lastcmd, 'returncode', 0)
+	str_cmd_return = str(cmd_return).rjust(3,'0')
+	
+	cmd_time = getattr(__xonsh__.lastcmd, 'endtime', 0) - getattr(__xonsh__.lastcmd, 'starttime', 0)
+	cmd_time_str = sm.numbers.fw.fw_float(cmd_time, 7, mode = 'si', show_sign = False) + 's'
+	#cmd_time_str = str(round(cmd_time/1000)) + 'ms'
+	
+	time_str = time.strftime('%T')
+	
+	prompt_count_str = str(prompt_count).rjust(3,'0')
+	
+	pwd_str = pretty_pwd(os.get_terminal_size()[0] - 30)
+	
+	color = fg_color['red'] if cmd_return != 0 else fg_color['white'] 
+	
+	return f"{color}{time_str} {separator} {color}{prompt_count_str} {pwd_str} {color}{str_cmd_return} {separator} {color}{cmd_time_str}\n{reset_colour}{sm.ansi.stylise('>>> ', ('intensity', 'bold'))}"
+
+def window_size() -> str:
+	fd = sys.stdin.fileno()
+	old = termios.tcgetattr(fd)
+	try:
+	    tty.setraw(fd)
+	    # ask for window pixel size
+	    sys.stdout.write("\033[14t")
+	    sys.stdout.flush()
+	    buf = ""
+	    while not buf.endswith("t"):
+	        buf += sys.stdin.read(1)
+	finally:
+	    termios.tcsetattr(fd, termios.TCSADRAIN, old)
+	
+	# buf should look like: ESC[4;height;widtht
+	m = re.match(r"\x1b\[4;(\d+);(\d+)t", buf)
+	if not m:
+		raise RuntimeError(f"unexpected reply: {repr(buf)}")
+	
+	window_y, window_x = map(int, m.groups())
+	return window_x, window_y
+
+mark('defining bottom toolbar…')
+
+def my_bottom_toolbar() -> str:
+	cols, rows = os.get_terminal_size()
+	
+	left_stats = [
+		('dir', dir_stats),
+		('mem', mem_stats),
+		('bat', bat_stats),
+		('net', net_stats),
+		('cpu', cpu_stats),
+		('gpu', gpu_stats),
+		('ssd', ssd_stats),
+		('sys', sys_stats),
+		('env', env_stats),
+	]
+
+	wind_x, wind_y = window_size()
+	#disp_x, disp_y = _resolution_getter.winfo_screenwidth(), _resolution_getter.winfo_screenheight()
+	#disp_str = f'{disp_x}x{disp_y}'
+	#size_str = f'{_resolution_getter.winfo_screenmmwidth()}mmx{_resolution_getter.winfo_screenmmheight()}mm'
+	cell = (wind_y / rows) / (wind_x / cols)
+	cell_str = str(round(cell, 1))
+
+	right_stats = [
+		('user', $USER),
+		('host', $HOSTNAME),
+		('term', f'{cols}x{rows}@{cell_str}'),
+		#('disp', disp_str),
+		('idfk', f'idfk'),
+		('idfk', f'idfk'),
+		('wind', f'{wind_x}x{wind_y}'),
+		('week', time.strftime('%A')),
+		('date', time.strftime('%F')),
+		('time', time.strftime('%T'))]
+	
+	output = ''
+	for left, right in zip(left_stats, right_stats, strict = True):
+		left = left[0] + separator + left[1]()
+		right = right[1] + separator + right[0]
+		try:
+			output += '\n' + justify_visible(cols, left, right)
+		except:
+			output += sm.ansi.colourise('\nthis line failed!', 'bright_red')
+	return output
+
+	# multithread	
+#	with ThreadPoolExecutor() as exe:
+#		#futures = {name: exe.submit(func) for name, func in stats.items()}
+#		#results = {name: future.result() for name, future in futures.items()}
+#		futures = OrderedDict((name, exe.submit(func)) for name, func in stats)
+#		results = OrderedDict((name, future.result()) for name, future in futures.items())
+#	return '\n' + '\n'.join(name[0] + separator + value + separator + name[1] for name, value in results.items())
+
+#	cell_ratio = (res_y/term_rows) / (res_x / term_cols)
+#	cell_ratio_str = str(cell_ratio if int(cell_ratio) == cell_ratio else round(cell_ratio, 2))	
+
+# right = f"{window_str} {'=' if int(cell_ratio) == cell_ratio else '≈'} {cell_ratio_str}"
+#
+
+#def my_multiline_prompt() -> str:
+#	line_count = line_count = line_count + 1
+#	return str(line_count)
+
+mark('setting interface…')
+
+$PROMPT = my_prompt_bootloader
+#$PROMPT = '> '
+#$RIGHT_PROMPT = ''
+$MULTILINE_PROMPT = '>>> '
+$BOTTOM_TOOLBAR = my_bottom_toolbar
+$INDENT = '    '
+$TITLE = f"xonsh │ {$USER}@{$HOSTNAME} │ {$PWD}"
+
+mark('done')
