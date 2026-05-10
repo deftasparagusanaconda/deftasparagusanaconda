@@ -9,6 +9,7 @@ hi, im **lalremruata chongmang**. you can call me **daa**. im a self-studied mat
 | [pyquantize](https://github.com/deftasparagusanaconda/pyquantize) | **general numeric/normed-space quantization**: affine lattice, finite set of points, arbitrary norm/metric, generalization of rounded division | `pip install pyquantize` |
 | [gapprox](https://github.com/deftasparagusanaconda/gapprox) | **pareto-front symbolic regression engine**: pareto front optimization, multidimensional i/o, multithreading | `pip install gapprox` |
 | [filterfitter](https://github.com/deftasparagusanaconda/filterfitter) | **GUI application to design filters**: LTI filters, graph-arrangement, iterative optimisation, rich transfer function/s-plane/z-plane/frequency response visualization | [install](https://deftasparagusanaconda.github.io/daamath/install/) |
+| [daadsp](https://github.com/deftasparagusanaconda/daadsp) | **personal collection of functions i use in DSP**: frequency scale conversions, amplitude scale conversions, wave generators | not up on pip yet |
 
 🌸 actively developed
 

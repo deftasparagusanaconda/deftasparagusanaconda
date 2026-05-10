@@ -107,6 +107,16 @@ def _ipq():
 		__xonsh__.ctx['pq'] = pq
 
 @aliases.register
+def _idd():
+	try: 
+		del dd
+	except UnboundLocalError:
+		pass
+	finally:
+		import daadsp as dd
+		__xonsh__.ctx['dd'] = dd
+
+@aliases.register
 def _idm():
 	try: 
 		del dm
