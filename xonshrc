@@ -1,14 +1,19 @@
 import time
 
-_boot = time.perf_counter()
+_boot = time.perf_counter_ns()
 
 def mark(label):
-	now = time.perf_counter()
-	print(f"[{(now-_boot)*1000:6.1f} ms] {label}")
+	print(f"[{(time.perf_counter_ns() - _boot) * 1e-6:6.0f} ms] {label}")
 
-mark('importing packages…')
+mark('importing importlib')
+import importlib
 
-import os, sys, socket, psutil, hsluv, wcwidth, strip_ansi, stringman as sm, termios, tty, re
+modules = ['socket', 'psutil', 'hsluv', 'wcwidth', 'strip_ansi', 'stringman', 'tty', 're', 'termios', 'os', 'sys', 'hsluv']
+
+for module in modules:
+	mark('importing ' + module + '…')
+	globals()[module] = importlib.import_module(module)
+
 #from tkinter import Tk as _Tk
 from typing import Literal	# for progress_bar
 #from hsluv import hpluv_to_rgb	# for intensity_fg
@@ -55,8 +60,8 @@ prompt_count = -1
 default_network_interface = 'wlan0'
 rx_old = 0
 tx_old = 0
-net_io_counters_old = psutil._common.snetio(0,0,0,0,0,0,0,0)
-disk_io_counters_old = psutil._pslinux.sdiskio(0,0,0,0,0,0,0,0,0)
+net_io_counters_old = psutil._ntuples.snetio(0,0,0,0,0,0,0,0)
+disk_io_counters_old = psutil._ntuples.sdiskio(0,0,0,0,0,0,0,0,0)
 # this is ass programming. this is probably pretty janky. this is probably very prone to... breakage. why do you do this?!? it *is* kinda funny though
 time_old = time.time_ns()
 core_count = psutil.cpu_count()
@@ -147,19 +152,44 @@ def _iff():
 		__xonsh__.ctx['ff'] = ff
 
 @aliases.register
+def _idc():
+	try: 
+		del dc
+	except UnboundLocalError:
+		pass
+	finally:
+		import daacorations as dc
+		__xonsh__.ctx['dc'] = dc
+
+@aliases.register
+def _idt():
+	try: 
+		del dt
+	except UnboundLocalError:
+		pass
+	finally:
+		import daatypes as dt
+		__xonsh__.ctx['dt'] = dt
+
+@aliases.register
 def _iall():
 	_iga()
 	_ipq()
 	_idm()
 	_ism()
 	_iff()
+	_idc()
+	_idt()
 
 #aliases['iall'] = ['iga', 'ipq;', 'idm;', 'ism;', 'iff']
 aliases['cdga'] = ['cd', '~/Projects/gapprox/src/gapprox/']
 aliases['cdpq'] = ['cd', '~/Projects/pyquantize/src/']
 aliases['cddm'] = ['cd', '~/Projects/daamath/']
-aliases['cdsm'] = ['cd', '~/Projects/stringman/python/src/stringman/']
+aliases['cddd'] = ['cd', '~/Projects/daadsp/']
+aliases['cdsm'] = ['cd', '~/Projects/stringman/src/stringman/']
 aliases['cdff'] = ['cd', '~/Projects/filterfitter/src/filterfitter/']
+aliases['cddc'] = ['cd', '~/Projects/daacorations']
+aliases['cddt'] = ['cd', '~/Projects/daatypes']
 aliases['ptga'] = ['pytest', '~/Projects/gapprox/tests']
 aliases['ptpq'] = ['pytest', '~/Projects/pyquantize/tests']
 aliases['ptdm'] = ['pytest', '~/Projects/daamath/python/tests']
@@ -184,7 +214,11 @@ aliases["y"] = _y
 mark('defining GUI helpers…')
 
 #def arrow_div(left, right):
-#	return sm.ansi.colourise('', left, right)
+#	return stringman.ansi.colourise('', left, right)
+
+#def si_format(number: float) -> str:
+#	...
+si_format = stringman.numbers.fw.fw_float
 
 reset = '\033[0m'
 reset_colour = '\033[0m'
@@ -239,7 +273,7 @@ hues = ['brred', 'bryellow', 'brgreen', 'brcyan', 'brblue', 'brmagenta']
 fg_hues = [fg_color[hue] for hue in hues]
 bg_hues = [bg_color[hue] for hue in hues]
 
-#separator = sm.ansi.colourise('│', 'black')
+#separator = stringman.ansi.colourise('│', 'black')
 separator = '\x1b[30m│\x1b[39m'
 
 # regex to match ANSI escape sequences
@@ -249,7 +283,7 @@ def intensity_fg_old(fraction, low = 0, high = 1, reverse = False):
 	hue = fraction * 240 if reverse else 240 - fraction * 240
 	r,g,b = hpluv_to_rgb((hue, 100, 40 if $LIGHT_MODE else 76))
 	fg = round(r*255), round(g*255), round(b*255)
-	return sm.ansi.colour(fg)
+	return stringman.ansi.colour(fg)
 """
 intensity_hues = [fg_color[hue] for hue in ['brblue', 'brcyan', 'brgreen', 'bryellow', 'brred']]
 intensity_hues_reverse = list(reversed(intensity_hues))
@@ -259,14 +293,12 @@ def intensity_fg(fraction, low = 0, high = 1, reverse = False):
 	return intensity_hues_reverse[hue] if reverse else intensity_hues[hue]
 
 def intensity_bar(fraction, low = 0, high = 1, fill:str='none', back:str='none', color=True, reverse_color=False):
-	if not (low <= fraction <= high):
-		raise ValueError("fraction must be in [low, high]")
+	#if not (low <= fraction <= high):
+	#	raise ValueError("fraction must be in [low, high]")
+	fraction = min(max(fraction, low), high)
 	fraction = (fraction - low) / (high - low)
 	index = round(min(max(fraction, 0.0), 1.0) * 8)
-	if reverse_color:
-		return f"{intensity_fg(fraction) if color else fg_color[fill]}{bg_color[back]}{' ▁▂▃▄▅▆▇█'[index]}"
-	else:
-		return f"{intensity_fg(fraction) if color else fg_color[fill]}{bg_color[back]}{' ▁▂▃▄▅▆▇█'[index]}"
+	return f"{intensity_fg(fraction, reverse = reverse_color) if color else fg_color[fill]}{bg_color[back]}{' ▁▂▃▄▅▆▇█'[index]}{reset_colour}"
 
 _EIGHTH_LEFT = ' ▏▎▍▌▋▊▉█'
 _EIGHTH_RIGHT = ' ▕🮇🮈▐🮉🮊🮋█'
@@ -318,6 +350,9 @@ def find_hwmon(name: str) -> str:
 			pass
 	raise FileNotFoundError(f"no hwmon named {name!r}")
 
+def getloadavg():
+	return tuple(float(load) for load in open('/proc/loadavg').readline().split(' ')[:3])
+
 _ANSI = re.compile(r'\x1b\[[0-9;]*[mGKHF]')
 def visible_width(text):
     return wcwidth.wcswidth(_ANSI.sub('', text))
@@ -325,8 +360,29 @@ def visible_width(text):
 def justify_visible(size: int, *args):
 	return args[0] + ' '*(size - visible_width(args[0]) - visible_width(args[1])) + args[1]
 
+def get_git_branch() -> str:
+	parts = ['/'] if $PWD == '/' else [part + '/' for part in $PWD.split('/')]
+	paths = [''.join(parts[:n]) for n in range(1, len(parts) + 1)]
+	
+	# find .git
+	path = None
+	for p in reversed(paths):
+		if '.git' in os.listdir(p):
+			path = p + '.git/'
+			break
+
+	if path is None:
+		return '(no .git/)'
+
+	# branch name
+	HEAD = open(path + 'HEAD').read().rstrip('\n')
+	if HEAD.startswith('ref: refs/heads/'):
+		return HEAD.removeprefix('ref: refs/heads/')
+	else:
+		return '(detached)'
+
 def pretty_pwd(length: int, pad: bool = True) -> str:
-	pwd = $PWD + ('' if $PWD == '/' else '/')
+	pwd = $PWD if $PWD == '/' else $PWD + '/'
 	pwd_len = len(pwd) 
 	if pwd_len > length:
 		pwd = '…' + pwd[1-length:]
@@ -336,12 +392,15 @@ def pretty_pwd(length: int, pad: bool = True) -> str:
 	pwd_right_pad_amount = pwd_pad_amount - pwd_left_pad_amount
 	
 	dirs = str()
+
 	for index, dir in enumerate(pwd.split('/')[:-1]):
+	#for index, dir in enumerate(pwd.split('/')):
+	#for index, dir in enumerate(pathlib.Path.cwd().parts):
 		dirs += f"{fg_hues[index % 6]}{dir}/"
 
 	pwd_left_pad = (fg_color['brblack'] + ('─'*length + ' ')[-pwd_left_pad_amount:]) if pwd_left_pad_amount != 0 else ''
 	pwd_right_pad = fg_color['brblack'] + (' ' + '─'*length)[:pwd_right_pad_amount]
-
+	
 	if pad:
 		return f"{pwd_left_pad}{dirs}{pwd_right_pad}{reset}"
 	else:
@@ -376,7 +435,7 @@ def net_stats(interface: str = default_network_interface):
 	"""
 	
 	new = psutil.net_io_counters()
-	delta = psutil._common.snetio(*(new - old for new, old in zip(new, net_io_counters_old)))
+	delta = psutil._ntuples.snetio(*(new - old for new, old in zip(new, net_io_counters_old)))
 	net_io_counters_old = new
 
 	rx = f"{delta.packets_recv}+{delta.dropin} {delta.bytes_recv}B ({delta.errin})"
@@ -396,7 +455,7 @@ def ssd_stats(*, temp: float = None, temp_low = temp_low, temp_high = temp_high)
 	temp_str = f"{intensity_fg(temp, temp_low, temp_high)}{round(temp)}°C{reset}"
 	
 	new = psutil.disk_io_counters()
-	delta = psutil._pslinux.sdiskio(*(new - old for new, old in zip(new, disk_io_counters_old)))
+	delta = psutil._ntuples.sdiskio(*(new - old for new, old in zip(new, disk_io_counters_old)))
 	disk_io_counters_old = new
 	
 	busy_time_str = f"{delta.busy_time}ms"
@@ -404,10 +463,11 @@ def ssd_stats(*, temp: float = None, temp_low = temp_low, temp_high = temp_high)
 	write_str = f"{delta.write_merged_count} ({delta.write_count}) {delta.write_bytes}B {delta.write_time}ms"
 	
 	return f"{temp_str} {busy_time_str}" #[{read_str} ▲▼ {write_str}]"
+
 def sys_stats(*, temp: float = None, temp_low = temp_low, temp_high = temp_high) -> str:
 	'stats about the system, excluding the environment'
 	venv_str = f"({$VIRTUAL_ENV.split('/')[-1]}) | " if 'VIRTUAL_ENV' in ${...} else ''
-	LAV_str = ' '.join(intensity_fg(load/core_count) + str(round(load, 1)) for load in os.getloadavg()) + reset
+	LAV_str = ' '.join(intensity_fg(load/core_count) + str(round(load, 1)) for load in getloadavg()) + reset
 
 	with open(f"/etc/os-release") as f:
 		os_stats = dict((line[:-1]).split('=', 1) for line in f.readlines())
@@ -543,30 +603,46 @@ def gpu_stats(temp: float = None, max_mhz = gpu_mhz_high, max_power = power_high
 	vram_str = f"{intensity_fg(vram_used/vram_total)}{round(vram_used)}/{round(vram_total)}MiB"
 	gtt_str = f"{intensity_fg(gtt_used/gtt_total)}{round(gtt_used)}/{round(gtt_total)}MiB"
 
-	return f"{edge_str} {sclk_str}MHz {PPT_str}W {vram_str} {gtt_str}"
+	return f"{edge_str} {sclk_str}MHz {PPT_str}W {vram_str} {gtt_str}{reset_colour}"
 
 def dir_stats() -> str:
 	
 	dirs = []
 	files = []
+	dot_dirs = []
+	dot_files = []
+	symlinks = []
 	others = []
 
 	for entry in os.scandir():
 		if entry.is_dir():
-			dirs.append('\x1b[34m' + entry.name)
+			if entry.name.startswith('.'):
+				dot_dirs.append(entry.name)
+			else:
+				dirs.append(entry.name)
 		elif entry.is_file():
-			files.append('\x1b[32m' + entry.name)
+			if entry.name.startswith('.'):
+				dot_files.append(entry.name)
+			else:
+				files.append(entry.name)
+		elif entry.is_symlink():
+			symlinks.append(entry.name)
 		else:
-			others.append('\x1b[31m' + entry.name)
+			others.append(entry.name)
 			
-	pwd = pretty_pwd(length = 999, pad = False)
-
-	return f'{pwd} {separator} 🗀 {len(dirs)}, 🗎 {len(files)}, ? {len(others)}'
+	return separator.join([
+		f'🗀 {len(dirs)}',
+		f'🗎 {len(files)}',
+		f'.🗀 {len(dot_dirs)}',
+		f'.🗎 {len(dot_files)}',
+		f'→ {len(symlinks)}',
+		f'? {len(others)}',
+		])
 
 # quick. 462μs
 def mem_stats() -> str:
-	mem = psutil._pslinux.svmem(*(entry/1024/1024 for entry in psutil.virtual_memory()))
-	swap = psutil._common.sswap(*(entry/1024/1024 for entry in psutil.swap_memory()))
+	mem = psutil._ntuples.svmem(*(entry/1024/1024 for entry in psutil.virtual_memory()))
+	swap = psutil._ntuples.sswap(*(entry/1024/1024 for entry in psutil.swap_memory()))
 
 	mem_private = mem.total - mem.available
 	mem_public = mem.available - mem.free
@@ -620,7 +696,7 @@ def my_prompt() -> str:
 	str_cmd_return = str(cmd_return).rjust(3,'0')
 	
 	cmd_time = getattr(__xonsh__.lastcmd, 'endtime', 0) - getattr(__xonsh__.lastcmd, 'starttime', 0)
-	cmd_time_str = sm.numbers.fw.fw_float(cmd_time, 7, mode = 'si', show_sign = False) + 's'
+	cmd_time_str = si_format(cmd_time, 7, mode = 'si', show_sign = False) + 's'
 	#cmd_time_str = str(round(cmd_time/1000)) + 'ms'
 	
 	time_str = time.strftime('%T')
@@ -631,7 +707,7 @@ def my_prompt() -> str:
 	
 	color = fg_color['red'] if cmd_return != 0 else fg_color['white'] 
 	
-	return f"{color}{time_str} {separator} {color}{prompt_count_str} {pwd_str} {color}{str_cmd_return} {separator} {color}{cmd_time_str}\n{reset_colour}{sm.ansi.stylise('>>> ', ('intensity', 'bold'))}"
+	return f"{color}{time_str} {separator} {color}{prompt_count_str} {pwd_str} {color}{str_cmd_return} {separator} {color}{cmd_time_str}\n{reset_colour}{stringman.ansi.stylise('>>> ', ('intensity', 'bold'))}"
 
 def window_size() -> str:
 	fd = sys.stdin.fileno()
@@ -658,6 +734,8 @@ def window_size() -> str:
 mark('defining bottom toolbar…')
 
 def my_bottom_toolbar() -> str:
+	start = time.perf_counter()
+	
 	cols, rows = os.get_terminal_size()
 	
 	left_stats = [
@@ -671,23 +749,26 @@ def my_bottom_toolbar() -> str:
 		('sys', sys_stats),
 		('env', env_stats),
 	]
-
+	
 	wind_x, wind_y = window_size()
 	#disp_x, disp_y = _resolution_getter.winfo_screenwidth(), _resolution_getter.winfo_screenheight()
 	#disp_str = f'{disp_x}x{disp_y}'
 	#size_str = f'{_resolution_getter.winfo_screenmmwidth()}mmx{_resolution_getter.winfo_screenmmheight()}mm'
 	cell = (wind_y / rows) / (wind_x / cols)
 	cell_str = str(round(cell, 1))
-
+#	cell_ratio = (res_y/term_rows) / (res_x / term_cols)
+#	cell_ratio_str = str(cell_ratio if int(cell_ratio) == cell_ratio else round(cell_ratio, 2))	
+	
+	
 	right_stats = [
+		('head', get_git_branch()),
+		('idfk', si_format(time.perf_counter() - start, 7, mode = 'si', show_sign = False) + 's'),
 		('user', $USER),
 		('host', $HOSTNAME),
 		('term', f'{cols}x{rows}@{cell_str}'),
 		#('disp', disp_str),
-		('idfk', f'idfk'),
-		('idfk', f'idfk'),
 		('wind', f'{wind_x}x{wind_y}'),
-		('week', time.strftime('%A')),
+		('week', time.strftime('%A').lower()),
 		('date', time.strftime('%F')),
 		('time', time.strftime('%T'))]
 	
@@ -698,9 +779,8 @@ def my_bottom_toolbar() -> str:
 		try:
 			output += '\n' + justify_visible(cols, left, right)
 		except:
-			output += sm.ansi.colourise('\nthis line failed!', 'bright_red')
-	return output
-
+			output += stringman.ansi.colourise('\nthis line failed!', 'bright_red')
+	
 	# multithread	
 #	with ThreadPoolExecutor() as exe:
 #		#futures = {name: exe.submit(func) for name, func in stats.items()}
@@ -709,8 +789,7 @@ def my_bottom_toolbar() -> str:
 #		results = OrderedDict((name, future.result()) for name, future in futures.items())
 #	return '\n' + '\n'.join(name[0] + separator + value + separator + name[1] for name, value in results.items())
 
-#	cell_ratio = (res_y/term_rows) / (res_x / term_cols)
-#	cell_ratio_str = str(cell_ratio if int(cell_ratio) == cell_ratio else round(cell_ratio, 2))	
+	return output
 
 # right = f"{window_str} {'=' if int(cell_ratio) == cell_ratio else '≈'} {cell_ratio_str}"
 #
@@ -722,11 +801,12 @@ def my_bottom_toolbar() -> str:
 mark('setting interface…')
 
 $PROMPT = my_prompt_bootloader
-#$PROMPT = '> '
+#$PROMPT = '{$PWD}>'
 #$RIGHT_PROMPT = ''
-$MULTILINE_PROMPT = '>>> '
+$MULTILINE_PROMPT = '>>>'
 $BOTTOM_TOOLBAR = my_bottom_toolbar
 $INDENT = '    '
-$TITLE = f"xonsh │ {$USER}@{$HOSTNAME} │ {$PWD}"
+$TITLE = f"xonsh | {$USER}@{$HOSTNAME} | {$PWD}"
 
 mark('done')
+

@@ -7,9 +7,18 @@ local config = {}
 
 --[[
 config.font = wezterm.font("Iosevka Semibold Extended")
-base = 32e
+base = 32
 scale = 1.3
 ratio = 1.06
+--]]
+--[[
+config.font = wezterm.font("Cascadia Mono")
+base = 24
+scale = 1
+ratio = 1
+config.freetype_load_flags = "NO_HINTING"
+config.freetype_load_target = "Mono"
+--config.freetype_render_target = "None"
 --]]
 --[[
 config.font = wezterm.font("Iosevka Semibold")
@@ -22,6 +31,12 @@ config.font = wezterm.font("comic mono")
 base = 32
 scale = 1.3
 ratio = 0.93
+--]]
+--[[
+config.font = wezterm.font("Lucida Console")
+base = 26.7
+scale = 1.33
+ratio = 1.08
 --]]
 --
 --config.font = wezterm.font("Jetbrains Mono NL Light")
@@ -67,7 +82,7 @@ ratio = 1
 config.font = wezterm.font("monocraft")
 base = 32
 scale = 1.05
-ratio = 1/1.08
+ratio = 1 / 1.08
 config.freetype_load_flags = "NO_HINTING"
 config.freetype_load_target = "Mono"
 --config.freetype_render_target = "None"
@@ -92,18 +107,18 @@ ratio = 1.16
 --]]
 --[[
 config.font = wezterm.font("Terminus")
-base = 999
-scale = 1--.05
-ratio = 1.05
+base = 24
+scale = 1 --.05
+ratio = 1 --.05
 --]]
 
 -- variables for smart font sizing
-display_scale = 1.5
-cols = 100
-rows = 30
-base = base * 1
-scale = scale * 1 / ((rows / 24 + cols / 80) / 2)
-ratio = ratio * 1
+local display_scale = 1.5
+local cols = 100
+local rows = 30
+local base = base * 1
+local scale = scale * 1 / ((rows / 24 + cols / 80) / 2)
+local ratio = ratio * 1
 
 config.alternate_buffer_wheel_scroll_speed = 1
 config.animation_fps = 60
