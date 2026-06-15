@@ -1,11 +1,13 @@
-hi, im **lalremruata chongmang**. you can call me **daa**. im a self-studied mathematician + programmer + experienced audio engineer from mizoram, 21 years old, and currently in my third year of a BE degree in CSE. i make math tools because they dont exist yet.
+hi, im **lalremruata chongmang**. you can call me **daa**. im a self-studied mathematician/programmer/experienced audio engineer from mizoram, 21 years old, and currently in my third year of a BE degree in CSE. i make math tools because they dont exist yet.
 
 # github projects
 
 | name | description | install |
 |-|-|-|
 | [daamath](https://github.com/deftasparagusanaconda/daamath) 🌸 | **cross-language math library specification**: domain-aware arithmetic, rigorous mathematics, ZFC + TT hybrid, … | [choose your language](https://deftasparagusanaconda.github.io/daamath/#install) |
-| [gapprox](https://github.com/deftasparagusanaconda/gapprox)🌸 | **multi-objective symbolic regression**: custom expression tree, multithreading, … | `pip install gapprox` |
+| [gapprox](https://github.com/deftasparagusanaconda/gapprox) | **multi-objective symbolic regression**: custom expression DAG, custom objectives, … | `pip install gapprox` |
+| [oklab](https://github.com/deftasparagusanaconda/oklab) 🌸 | python implementation of Björn Ottosson's oklab colour space | `pip install oklab` |
+| [clamp](https://github.com/deftasparagusanaconda/clamp) 🌸 | clamp colour correctly: any colour, any gamut, any space, any algorithm | `pip install clamp` |
 | [stringman](https://github.com/deftasparagusanaconda/stringman) | **string utilities + terminal UI utilities library**: advanced ANSI sequence colour/style/terminal manipulation, advanced string justification, advanced number representation | `pip install stringman` |
 | [pyquantize](https://github.com/deftasparagusanaconda/pyquantize) | **general numeric/normed-space quantization**: affine lattice, finite set of points, arbitrary norm/metric, generalization of rounded division | `pip install pyquantize` |
 | [filterfitter](https://github.com/deftasparagusanaconda/filterfitter) | **GUI application to design filters**: LTI filters, arbitrary-graph topology, iterative optimization, rich transfer function/s-plane/z-plane/frequency response visualization | [install](https://deftasparagusanaconda.github.io/daamath/install/) |
@@ -19,6 +21,7 @@ hi, im **lalremruata chongmang**. you can call me **daa**. im a self-studied mat
 |-|-|
 | [log_table](https://github.com/deftasparagusanaconda/log_table) | optimized log table: consistent error/tolerance |
 | [projective datatype](https://) | floating point alternative: projective geometry, cheap reciprocal via bit-flip, smooth precision distribution, but slow arithmetic |
+| [preferred numbers cheatsheet](https://docs.google.com/spreadsheets/d/1wmIsZd6zYBbLyXr9OBghVw4mtJCFxoN1BnTRifIOA_8/edit?usp=drive_link) | cheatsheet of E24, R80, E192 with corrected versions, errors highlighted, and floored/truncated/unrounded digits for further memoization |
 
 # future works:
 
