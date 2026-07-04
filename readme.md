@@ -1,4 +1,4 @@
-hi. im **lalremruata chongmang**. you can call me **daa**. im a self-studied mathematical toolmaker. heres my works:
+hi. im **lalremruata chongmang**. you can call me **daa**. im a self-studied mathematical toolmaker. im also an adept sound engineer. heres my works:
 
 # github projects
 
@@ -10,19 +10,20 @@ hi. im **lalremruata chongmang**. you can call me **daa**. im a self-studied mat
 | [stringman](https://github.com/deftasparagusanaconda/stringman) | **string utilities + terminal UI utilities library**: advanced ANSI sequence colour/style/terminal manipulation, advanced string justification, advanced number representation | `pip install stringman` |
 | [pyquantize](https://github.com/deftasparagusanaconda/pyquantize) | **general numeric/normed-space quantization**: affine lattice, finite set of points, arbitrary norm/metric, generalization of rounded division | `pip install pyquantize` |
 | [filterfitter](https://github.com/deftasparagusanaconda/filterfitter) | **GUI application to design filters**: LTI filters, arbitrary-graph topology, iterative optimization, rich transfer function/s-plane/z-plane/frequency response visualization | [install](https://deftasparagusanaconda.github.io/daamath/install/) |
-| [daadsp](https://github.com/deftasparagusanaconda/daadsp) | **personal collection of functions i use in DSP**: frequency scale conversions, amplitude scale conversions, wave generators | not up on pip yet |
+| [daadsp](https://github.com/deftasparagusanaconda/daadsp) | **personal collection of functions i use in DSP**: frequency scale conversions, amplitude scale conversions, wave generators | `pip install daadsp` |
+| [daacorations] | **python utilities i use to make things pretty**: pretty_repr, decorators, … | `pip install daacorations` |
+| [daatypes]() | **my personal custom datatypes**: Float, Fixed, Monzo, SCF, Quat, Octo, … | `pip install daatypes` |
 | [oklab](https://github.com/deftasparagusanaconda/oklab) | lightweight python implementation of Björn Ottosson's oklab colour space | `pip install oklab` |
 
 🌸 actively developed
 
-[daacorations]
 
 # other works
 
 | name | description |
 |-|-|
 | [log_table](https://github.com/deftasparagusanaconda/log_table) | optimized log table: consistent error/tolerance |
-| [projective datatype](https://) | floating point alternative: projective geometry, cheap reciprocal via bit-flip, smooth precision distribution, but slow arithmetic |
+| [projective datatype]() | floating point alternative: projective geometry, cheap reciprocal via bit-flip, smooth precision distribution, but slow arithmetic |
 | [preferred numbers cheatsheet](https://docs.google.com/spreadsheets/d/1wmIsZd6zYBbLyXr9OBghVw4mtJCFxoN1BnTRifIOA_8/edit?usp=drive_link) | cheatsheet of E24, R80, E192 with corrected versions, errors highlighted, and floored/truncated/unrounded digits for further memoization |
 
 # future works:
