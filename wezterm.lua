@@ -114,8 +114,8 @@ ratio = 1 --.05
 
 -- variables for smart font sizing
 local display_scale = 1.5
-local cols = 100
-local rows = 30
+local cols = 120
+local rows = 36
 local base = base * 1
 local scale = scale * 1 / ((rows / 24 + cols / 80) / 2)
 local ratio = ratio * 1
@@ -140,7 +140,7 @@ config.initial_cols = cols
 --config.window_background_opacity = 0.9
 --config.kde_window_background_blur = true
 config.show_tabs_in_tab_bar = true
-config.tab_and_split_indices_are_zero_based = true
+config.tab_and_split_indices_are_zero_based = false
 --config.tab_bar_at_bottom = true
 --config.text_background_opacity = 1
 --config.use_resize_increments = true
@@ -165,8 +165,10 @@ config.enable_wayland = true
 wezterm.on("window-config-reloaded", function(window)
 	local appearance = window:get_appearance()
 	if appearance:find("Dark") then
+		--		config.colors = { background = "#000000" }
 		window:set_config_overrides({ color_scheme = "Catppuccin Mocha" })
 	else
+		--		config.colors = { background = "#ffffff" }
 		window:set_config_overrides({ color_scheme = "Catppuccin Latte" })
 	end
 end)
@@ -175,8 +177,8 @@ config.colors = {
 	--
 	--	foreground = '#ffffff',
 	--	foreground = '#000000',
-	--	background = '#000000',
-	--	background = '#ffffff',
+	--	background = "#000000",
+	-- background = '#ffffff',
 	--[[
 --	background = '#ffffff',
 	cursor_bg = '#ffffff',

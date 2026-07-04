@@ -1,4 +1,4 @@
-hi, im **lalremruata chongmang**. you can call me **daa**. im a self-studied mathematician/programmer/experienced audio engineer from mizoram, 21 years old, and currently in my third year of a BE degree in CSE. i make math tools because they dont exist yet.
+hi. im **lalremruata chongmang**. you can call me **daa**. im a self-studied mathematical toolmaker. heres my works:
 
 # github projects
 
@@ -6,14 +6,16 @@ hi, im **lalremruata chongmang**. you can call me **daa**. im a self-studied mat
 |-|-|-|
 | [daamath](https://github.com/deftasparagusanaconda/daamath) 🌸 | **cross-language math library specification**: domain-aware arithmetic, rigorous mathematics, ZFC + TT hybrid, … | [choose your language](https://deftasparagusanaconda.github.io/daamath/#install) |
 | [gapprox](https://github.com/deftasparagusanaconda/gapprox) | **multi-objective symbolic regression**: custom expression DAG, custom objectives, … | `pip install gapprox` |
-| [oklab](https://github.com/deftasparagusanaconda/oklab) 🌸 | python implementation of Björn Ottosson's oklab colour space | `pip install oklab` |
-| [clamp](https://github.com/deftasparagusanaconda/clamp) 🌸 | clamp colour correctly: any colour, any gamut, any space, any algorithm | `pip install clamp` |
+| [clamp](https://github.com/deftasparagusanaconda/clamp) | **clamp colour correctly**: any colour, any gamut, any space, any algorithm | `pip install clamp` |
 | [stringman](https://github.com/deftasparagusanaconda/stringman) | **string utilities + terminal UI utilities library**: advanced ANSI sequence colour/style/terminal manipulation, advanced string justification, advanced number representation | `pip install stringman` |
 | [pyquantize](https://github.com/deftasparagusanaconda/pyquantize) | **general numeric/normed-space quantization**: affine lattice, finite set of points, arbitrary norm/metric, generalization of rounded division | `pip install pyquantize` |
 | [filterfitter](https://github.com/deftasparagusanaconda/filterfitter) | **GUI application to design filters**: LTI filters, arbitrary-graph topology, iterative optimization, rich transfer function/s-plane/z-plane/frequency response visualization | [install](https://deftasparagusanaconda.github.io/daamath/install/) |
 | [daadsp](https://github.com/deftasparagusanaconda/daadsp) | **personal collection of functions i use in DSP**: frequency scale conversions, amplitude scale conversions, wave generators | not up on pip yet |
+| [oklab](https://github.com/deftasparagusanaconda/oklab) | lightweight python implementation of Björn Ottosson's oklab colour space | `pip install oklab` |
 
 🌸 actively developed
+
+[daacorations]
 
 # other works
 
@@ -32,6 +34,11 @@ hi, im **lalremruata chongmang**. you can call me **daa**. im a self-studied mat
 | guithon | GUI python: design python programs visually with a graph-based GUI (coming ~soon~ *not soon 😅*. gapprox's expression system is based on this) |
 
 also planning to learn geometric algebra and category theory in the future. im hoping to create something similar to ganja.js in the far far future when i have enough free time.
+
+# about me:
+- birthplace: mizoram
+- age: 21 years
+- education: currently studying CSE undergrad
 
 # strengths
 - languages: fluent english & mizo, conversational hindi, learning japanese

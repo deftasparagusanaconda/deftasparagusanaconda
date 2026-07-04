@@ -1,3 +1,4 @@
+$XONSH_SHOW_TRACEBACK = True
 import time
 
 _boot = time.perf_counter_ns()
@@ -8,14 +9,15 @@ def mark(label):
 mark('importing importlib')
 import importlib
 
-modules = ['socket', 'psutil', 'hsluv', 'wcwidth', 'strip_ansi', 'stringman', 'tty', 're', 'termios', 'os', 'sys', 'hsluv']
+modules = ['socket', 'psutil', 'hsluv', 'wcwidth', 'strip_ansi', 'stringman', 'tty', 're', 'termios', 'os', 'sys', 'daacorations']
 
 for module in modules:
 	mark('importing ' + module + '…')
 	globals()[module] = importlib.import_module(module)
 
 #from tkinter import Tk as _Tk
-from typing import Literal	# for progress_bar
+from typing import Any, Literal	
+from daacorations import pretty_repr as pr
 #from hsluv import hpluv_to_rgb	# for intensity_fg
 
 #mark('loading xontribs…')
@@ -40,6 +42,9 @@ $XONSH_STYLE_OVERRIDES['bottom-toolbar'] = 'noreverse'
 #defstyle.PROMPT_TOOLKIT_STYLE.append(('completion-menu','bg:#444444 #eeeeee'))
 $PATH.insert(0, '/home/daa/.local/xonsh-env/bin')
 $PATH.insert(1, '/home/daa/.local/xonsh-env/xbin')
+#$PATH.insert(0, $HOME + '/.pyenv/bin')
+#$PATH.insert(0, $HOME + '/.pyenv/shims')
+#execx($(pyenv init -))
 
 # Coloured man page support
 # using 'less' env vars (format is 'ESC[<brightness>;<colour>m')
@@ -122,6 +127,16 @@ def _idd():
 		__xonsh__.ctx['dd'] = dd
 
 @aliases.register
+def _idt():
+	try: 
+		del dt
+	except UnboundLocalError:
+		pass
+	finally:
+		import daatypes as dt
+		__xonsh__.ctx['dt'] = dt
+
+@aliases.register
 def _idm():
 	try: 
 		del dm
@@ -162,16 +177,6 @@ def _idc():
 		__xonsh__.ctx['dc'] = dc
 
 @aliases.register
-def _idt():
-	try: 
-		del dt
-	except UnboundLocalError:
-		pass
-	finally:
-		import daatypes as dt
-		__xonsh__.ctx['dt'] = dt
-
-@aliases.register
 def _iall():
 	_iga()
 	_ipq()
@@ -189,7 +194,7 @@ aliases['cddd'] = ['cd', '~/Projects/daadsp/']
 aliases['cdsm'] = ['cd', '~/Projects/stringman/src/stringman/']
 aliases['cdff'] = ['cd', '~/Projects/filterfitter/src/filterfitter/']
 aliases['cddc'] = ['cd', '~/Projects/daacorations']
-aliases['cddt'] = ['cd', '~/Projects/daatypes']
+aliases['cddt'] = ['cd', '~/Projects/daatypes/src/daatypes']
 aliases['ptga'] = ['pytest', '~/Projects/gapprox/tests']
 aliases['ptpq'] = ['pytest', '~/Projects/pyquantize/tests']
 aliases['ptdm'] = ['pytest', '~/Projects/daamath/python/tests']
@@ -208,6 +213,10 @@ def _y(args):
 	rm -f -- @(tmp)
 
 aliases["y"] = _y
+
+def doc(thing: Any) -> None:
+    'same as `print(thing.__doc__)`. if thing.__doc__ not exist, then print `None`'
+    print(thing.__doc__)
 
 # ------------------------------------------------------------------------------
 
@@ -336,7 +345,7 @@ def get_time_colour() -> str:
 	'return a color based on daily time'
 	_,_,_,h,m,s,_,_,_ = time.localtime()
 	seconds = s * 60 ** 0 + m * 60 ** 1 + h * 60 ** 2
-	return hsluv.hpluv_to_hex((seconds / 60 / 60 / 24, 100, 40 if $LIGHT_MODE else 76))
+	return oklab.lch_to_hex((seconds / 60 / 60 / 24, 1, 0.4 if $LIGHT_MODE else 0.76))
 """
 def find_hwmon(name: str) -> str:
 	'return path to hwmon device with matching name'

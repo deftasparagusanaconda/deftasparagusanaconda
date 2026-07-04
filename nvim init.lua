@@ -311,6 +311,8 @@ vim.o.showbreak = "↪"
 vim.o.smarttab = true
 vim.o.colorcolumn = "0"
 --vim.o.mouse = a
+vim.o.signcolumn = "no"
+vim.o.number = false
 
 vim.o.expandtab = false
 vim.o.tabstop = 4
