@@ -1,10 +1,10 @@
-hi. im **lalremruata chongmang**. you can call me **daa**. im a self-studied mathematical toolmaker. im also an adept sound engineer. heres my works:
+hi. im **lalremruata chongmang**. you can call me **daa**. im a self-studied mathematical toolmaker. im also an adept sound engineer.
 
-# github projects
+# python projects
 
 | name | description | install |
 |-|-|-|
-| [daamath](https://github.com/deftasparagusanaconda/daamath) 🌸 | **cross-language math library specification**: domain-aware arithmetic, rigorous mathematics, ZFC + TT hybrid, … | [choose your language](https://deftasparagusanaconda.github.io/daamath/#install) |
+| [daamath-python](https://github.com/deftasparagusanaconda/daamath-python) 🌸 | python implementation of daamath | `python -m pip install daamath` |
 | [gapprox](https://github.com/deftasparagusanaconda/gapprox) | **multi-objective symbolic regression**: custom expression DAG, custom objectives, … | `pip install gapprox` |
 | [clamp](https://github.com/deftasparagusanaconda/clamp) | **clamp colour correctly**: any colour, any gamut, any space, any algorithm | `pip install clamp` |
 | [stringman](https://github.com/deftasparagusanaconda/stringman) | **string utilities + terminal UI utilities library**: advanced ANSI sequence colour/style/terminal manipulation, advanced string justification, advanced number representation | `pip install stringman` |
@@ -14,9 +14,14 @@ hi. im **lalremruata chongmang**. you can call me **daa**. im a self-studied mat
 | [daacorations] | **python utilities i use to make things pretty**: pretty_repr, decorators, … | `pip install daacorations` |
 | [daatypes]() | **my personal custom datatypes**: Float, Fixed, Monzo, SCF, Quat, Octo, … | `pip install daatypes` |
 | [oklab](https://github.com/deftasparagusanaconda/oklab) | lightweight python implementation of Björn Ottosson's oklab colour space | `pip install oklab` |
-
 🌸 actively developed
 
+# projects
+
+| name | description | link |
+|-|-|-|
+| [daamath](https://github.com/deftasparagusanaconda/daamath) 🌸 | **cross-language math library specification**: domain-aware arithmetic, rigorous mathematics, ZFC + TT hybrid, … | [website](https://deftasparagusanaconda.github.io/daamath/) |
+🌸 actively developed
 
 # other works
 

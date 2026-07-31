@@ -4,11 +4,23 @@ local mux = wezterm.mux
 
 -- This will hold the configuration
 local config = {}
-
+--
+config.font = wezterm.font("TX-02")
+base = 28.5
+scale = 1
+ratio = 1.025
+--]]
 --[[
-config.font = wezterm.font("Iosevka Semibold Extended")
-base = 32
-scale = 1.3
+config.font = wezterm.font("Ioskeley Mono NL Medium")
+base = 28.2
+scale = 1
+ratio = 1.045
+--]]
+--[[
+--config.font = wezterm.font("Iosevka Semibold Extended")
+config.font = wezterm.font("Iosevka Medium Extended")
+base = 27
+scale = 1
 ratio = 1.06
 --]]
 --[[
@@ -35,24 +47,24 @@ ratio = 0.93
 --[[
 config.font = wezterm.font("Lucida Console")
 base = 26.7
-scale = 1.33
+scale = 1
 ratio = 1.08
 --]]
---
+--[[
 --config.font = wezterm.font("Jetbrains Mono NL Light")
 --config.font = wezterm.font("Jetbrains Mono")
---config.font = wezterm.font("Jetbrains Mono NL Semibold")
---config.font = wezterm.font("JetBrains Mono NL", { weight = "Bold" })
+--config.font = wezterm.font("JetbrainsMonoNL Semibold")
+--config.font = wezterm.font("JetBrainsMonoNL NFM", { weight = "Bold" })
 config.font = wezterm.font("JetbrainsMonoNL NFM")
 base = 26.7
-scale = 1.33
+scale = 1
 ratio = 1.08
 --]]
 --[[
 config.font = wezterm.font("IBM Plex Mono")
-base = 32
+base = 27
 scale = 1
-ratio = 1
+ratio = 1.05
 --]]
 --[[
 config.font = wezterm.font("Source Code Pro")
@@ -80,17 +92,17 @@ ratio = 1
 --]]
 --[[
 config.font = wezterm.font("monocraft")
-base = 32
-scale = 1.05
+base = 27
+scale = 1 / 1.25
 ratio = 1 / 1.08
 config.freetype_load_flags = "NO_HINTING"
 config.freetype_load_target = "Mono"
 --config.freetype_render_target = "None"
 --]]
---[[	too bunched up on one line
+--[[	--too bunched up on one line
 config.font = wezterm.font("Fira Code")
 base = 31
-scale = 1.25
+scale = 1
 ratio = 1.05
 --]]
 --[[
@@ -101,9 +113,9 @@ ratio = 1.08
 --]]
 --[[
 config.font = wezterm.font("iosevka")
-base = 34
-scale = 1/0.8
-ratio = 1.16
+base = 30
+scale = 1
+ratio = 1
 --]]
 --[[
 config.font = wezterm.font("Terminus")
@@ -117,7 +129,7 @@ local display_scale = 1.5
 local cols = 120
 local rows = 36
 local base = base * 1
-local scale = scale * 1 / ((rows / 24 + cols / 80) / 2)
+local scale = scale * 1.25 / ((rows / 24 + cols / 80) / 2)
 local ratio = ratio * 1
 
 config.alternate_buffer_wheel_scroll_speed = 1

@@ -137,6 +137,16 @@ def _idt():
 		__xonsh__.ctx['dt'] = dt
 
 @aliases.register
+def _idu():
+	try: 
+		del du
+	except UnboundLocalError:
+		pass
+	finally:
+		import daautils as du
+		__xonsh__.ctx['du'] = du
+
+@aliases.register
 def _idm():
 	try: 
 		del dm
@@ -185,6 +195,7 @@ def _iall():
 	_iff()
 	_idc()
 	_idt()
+	_idu()
 
 #aliases['iall'] = ['iga', 'ipq;', 'idm;', 'ism;', 'iff']
 aliases['cdga'] = ['cd', '~/Projects/gapprox/src/gapprox/']
@@ -195,6 +206,7 @@ aliases['cdsm'] = ['cd', '~/Projects/stringman/src/stringman/']
 aliases['cdff'] = ['cd', '~/Projects/filterfitter/src/filterfitter/']
 aliases['cddc'] = ['cd', '~/Projects/daacorations']
 aliases['cddt'] = ['cd', '~/Projects/daatypes/src/daatypes']
+aliases['cddu'] = ['cd', '~/Projects/daautils/src/daautils']
 aliases['ptga'] = ['pytest', '~/Projects/gapprox/tests']
 aliases['ptpq'] = ['pytest', '~/Projects/pyquantize/tests']
 aliases['ptdm'] = ['pytest', '~/Projects/daamath/python/tests']
