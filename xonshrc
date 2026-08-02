@@ -201,6 +201,7 @@ def _iall():
 aliases['cdga'] = ['cd', '~/Projects/gapprox/src/gapprox/']
 aliases['cdpq'] = ['cd', '~/Projects/pyquantize/src/']
 aliases['cddm'] = ['cd', '~/Projects/daamath/']
+aliases['cddmp'] = ['cd', '~/Projects/daamath-python/src/daamath']
 aliases['cddd'] = ['cd', '~/Projects/daadsp/']
 aliases['cdsm'] = ['cd', '~/Projects/stringman/src/stringman/']
 aliases['cdff'] = ['cd', '~/Projects/filterfitter/src/filterfitter/']

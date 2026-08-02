@@ -18,18 +18,26 @@ hi. im **lalremruata chongmang**. you can call me **daa**. im a self-studied mat
 
 # projects
 
-| name | description | link |
-|-|-|-|
-| [daamath](https://github.com/deftasparagusanaconda/daamath) 🌸 | **cross-language math library specification**: domain-aware arithmetic, rigorous mathematics, ZFC + TT hybrid, … | [website](https://deftasparagusanaconda.github.io/daamath/) |
+<table>
+	<tr>
+		<td><a href="https://deftasparagusanaconda.github.io/daamath/">daamath</a> 🌸</td>
+		<td>cross-language math library specification</td>
+	</tr>
+	<tr>
+		<td><a href="https://deftasparagusanaconda.github.io/map-of-mathematics/">map of mathematics</a></td>
+		<td>what mathematicians ought to know</td>
+	</tr>
+	<tr>
+		<td><a href="https://docs.google.com/spreadsheets/d/1wmIsZd6zYBbLyXr9OBghVw4mtJCFxoN1BnTRifIOA_8/edit?usp=drive_link">preferred numbers cheatsheet</a></td>
+		<td>cheatsheet of E24, R80, E192 with corrected versions, errors highlighted, and floored/truncated/unrounded digits for further memoization</td>
+	</tr>
+	<tr>
+		<td><a href="https://github.com/deftasparagusanaconda/log_table">log table</a></td>
+		<td>optimized log table: consistent error/tolerance</td>
+	</tr>
+<!-- [projective datatype]() | floating point alternative: projective geometry, cheap reciprocal via bit-flip, smooth precision distribution, but slow arithmetic |-->
+</table>
 🌸 actively developed
-
-# other works
-
-| name | description |
-|-|-|
-| [log_table](https://github.com/deftasparagusanaconda/log_table) | optimized log table: consistent error/tolerance |
-| [projective datatype]() | floating point alternative: projective geometry, cheap reciprocal via bit-flip, smooth precision distribution, but slow arithmetic |
-| [preferred numbers cheatsheet](https://docs.google.com/spreadsheets/d/1wmIsZd6zYBbLyXr9OBghVw4mtJCFxoN1BnTRifIOA_8/edit?usp=drive_link) | cheatsheet of E24, R80, E192 with corrected versions, errors highlighted, and floored/truncated/unrounded digits for further memoization |
 
 # future works:
 
