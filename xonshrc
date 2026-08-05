@@ -725,11 +725,11 @@ def my_prompt() -> str:
 	
 	prompt_count_str = str(prompt_count).rjust(3,'0')
 	
-	pwd_str = pretty_pwd(os.get_terminal_size()[0] - 30)
+	pwd_str = pretty_pwd(os.get_terminal_size()[0] - 26)
 	
 	color = fg_color['red'] if cmd_return != 0 else fg_color['white'] 
 	
-	return f"{color}{time_str} {separator} {color}{prompt_count_str} {pwd_str} {color}{str_cmd_return} {separator} {color}{cmd_time_str}\n{reset_colour}{stringman.ansi.stylise('>>> ', ('intensity', 'bold'))}"
+	return f"{color}{time_str} {color}{prompt_count_str} {pwd_str} {color}{str_cmd_return} {color}{cmd_time_str}\n{reset_colour}{stringman.ansi.stylise('>>> ', ('intensity', 'bold'))}"
 
 def window_size() -> str:
 	fd = sys.stdin.fileno()

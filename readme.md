@@ -20,19 +20,19 @@ hi. im **lalremruata chongmang**. you can call me **daa**. im a self-studied mat
 
 <table>
 	<tr>
-		<td><a href="https://deftasparagusanaconda.github.io/daamath/">daamath</a> 🌸</td>
+		<td><a href="https://deftasparagusanaconda.github.io/daamath/" target="_blank">daamath</a> 🌸</td>
 		<td>cross-language math library specification</td>
 	</tr>
 	<tr>
-		<td><a href="https://deftasparagusanaconda.github.io/map-of-mathematics/">map of mathematics</a></td>
+		<td><a href="https://deftasparagusanaconda.github.io/culture-of-mathematics/" target="_blank">culture of mathematics</a></td>
 		<td>what mathematicians ought to know</td>
 	</tr>
 	<tr>
-		<td><a href="https://docs.google.com/spreadsheets/d/1wmIsZd6zYBbLyXr9OBghVw4mtJCFxoN1BnTRifIOA_8/edit?usp=drive_link">preferred numbers cheatsheet</a></td>
+		<td><a href="https://docs.google.com/spreadsheets/d/1wmIsZd6zYBbLyXr9OBghVw4mtJCFxoN1BnTRifIOA_8/edit?usp=drive_link" target="_blank">preferred numbers cheatsheet</a></td>
 		<td>cheatsheet of E24, R80, E192 with corrected versions, errors highlighted, and floored/truncated/unrounded digits for further memoization</td>
 	</tr>
 	<tr>
-		<td><a href="https://github.com/deftasparagusanaconda/log_table">log table</a></td>
+		<td><a href="https://github.com/deftasparagusanaconda/log_table" target="_blank">log table</a></td>
 		<td>optimized log table: consistent error/tolerance</td>
 	</tr>
 <!-- [projective datatype]() | floating point alternative: projective geometry, cheap reciprocal via bit-flip, smooth precision distribution, but slow arithmetic |-->
