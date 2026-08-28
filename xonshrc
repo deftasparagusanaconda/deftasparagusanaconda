@@ -56,6 +56,7 @@ $LESS_TERMCAP_se = "\033[0m"         # end standout-mode
 $LESS_TERMCAP_us = "\033[00;36m"     # begin underline
 $LESS_TERMCAP_ue = "\033[0m"         # end underline
 
+
 mark('initializing variables…')
 light_theme = False
 # for prompts
@@ -652,14 +653,7 @@ def dir_stats() -> str:
 		else:
 			others.append(entry.name)
 			
-	return separator.join([
-		f'🗀 {len(dirs)}',
-		f'🗎 {len(files)}',
-		f'.🗀 {len(dot_dirs)}',
-		f'.🗎 {len(dot_files)}',
-		f'→ {len(symlinks)}',
-		f'? {len(others)}',
-		])
+	return f'{len(dirs)}/{len(files)}{separator}.{len(dot_dirs)}/.{len(dot_files)}{separator}{len(symlinks)}{len(others)}'
 
 # quick. 462μs
 def mem_stats() -> str:
@@ -759,7 +753,7 @@ def my_bottom_toolbar() -> str:
 	start = time.perf_counter()
 	
 	cols, rows = os.get_terminal_size()
-	
+
 	left_stats = [
 		('dir', dir_stats),
 		('mem', mem_stats),
@@ -768,16 +762,16 @@ def my_bottom_toolbar() -> str:
 		('cpu', cpu_stats),
 		('gpu', gpu_stats),
 		('ssd', ssd_stats),
-		('sys', sys_stats),
+#		('sys', sys_stats),
 		('env', env_stats),
 	]
 	
-	wind_x, wind_y = window_size()
+	#wind_x, wind_y = window_size()
 	#disp_x, disp_y = _resolution_getter.winfo_screenwidth(), _resolution_getter.winfo_screenheight()
 	#disp_str = f'{disp_x}x{disp_y}'
 	#size_str = f'{_resolution_getter.winfo_screenmmwidth()}mmx{_resolution_getter.winfo_screenmmheight()}mm'
-	cell = (wind_y / rows) / (wind_x / cols)
-	cell_str = str(round(cell, 1))
+	#cell = (wind_y / rows) / (wind_x / cols)
+	#cell_str = str(round(cell, 1))
 #	cell_ratio = (res_y/term_rows) / (res_x / term_cols)
 #	cell_ratio_str = str(cell_ratio if int(cell_ratio) == cell_ratio else round(cell_ratio, 2))	
 	
@@ -787,12 +781,14 @@ def my_bottom_toolbar() -> str:
 		('idfk', si_format(time.perf_counter() - start, 7, mode = 'si', show_sign = False) + 's'),
 		('user', $USER),
 		('host', $HOSTNAME),
-		('term', f'{cols}x{rows}@{cell_str}'),
+		#('term', f'{cols}x{rows}@{cell_str}'),
 		#('disp', disp_str),
-		('wind', f'{wind_x}x{wind_y}'),
+		('idfk', ''),
+		#('wind', f'{wind_x}x{wind_y}'),
 		('week', time.strftime('%A').lower()),
 		('date', time.strftime('%F')),
-		('time', time.strftime('%T'))]
+		('time', time.strftime('%T'))
+		]
 	
 	output = ''
 	for left, right in zip(left_stats, right_stats, strict = True):
@@ -831,4 +827,3 @@ $INDENT = '    '
 $TITLE = f"xonsh | {$USER}@{$HOSTNAME} | {$PWD}"
 
 mark('done')
-
