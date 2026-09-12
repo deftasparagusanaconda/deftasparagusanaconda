@@ -4,51 +4,52 @@ local mux = wezterm.mux
 
 -- This will hold the configuration
 local config = {}
---
+--[[
 config.font = wezterm.font("TX-02")
-base = 28.5
-scale = 1
-ratio = 1.025
+local base = 28.5
+local scale = 1
+local ratio = 1
 --]]
 --[[
 config.font = wezterm.font("Ioskeley Mono NL Medium")
-base = 28.2
-scale = 1
-ratio = 1.045
+local base = 28.2
+local scale = 1
+local ratio = 1.045
 --]]
 --[[
 --config.font = wezterm.font("Iosevka Semibold Extended")
 config.font = wezterm.font("Iosevka Medium Extended")
-base = 27
-scale = 1
-ratio = 1.06
+local base = 27
+local scale = 1
+local ratio = 1.06
 --]]
 --[[
 config.font = wezterm.font("Cascadia Mono")
-base = 24
-scale = 1
-ratio = 1
+local base = 24
+local scale = 1
+local ratio = 1
 config.freetype_load_flags = "NO_HINTING"
 config.freetype_load_target = "Mono"
 --config.freetype_render_target = "None"
 --]]
---[[
-config.font = wezterm.font("Iosevka Semibold")
-base = 34
-scale = 1.3
-ratio = 1.16
+--
+--config.font = wezterm.font("Iosevka Semibold")
+config.font = wezterm.font("Iosevka")
+local base = 30
+local scale = 1
+local ratio = 1.15
 --]]
 --[[
 config.font = wezterm.font("comic mono")
-base = 32
-scale = 1.3
-ratio = 0.93
+local base = 32
+local scale = 1.3
+local ratio = 0.93
 --]]
 --[[
 config.font = wezterm.font("Lucida Console")
-base = 26.7
-scale = 1
-ratio = 1.08
+local base = 26.7
+local scale = 1
+local ratio = 1.08
 --]]
 --[[
 --config.font = wezterm.font("Jetbrains Mono NL Light")
@@ -56,77 +57,77 @@ ratio = 1.08
 --config.font = wezterm.font("JetbrainsMonoNL Semibold")
 --config.font = wezterm.font("JetBrainsMonoNL NFM", { weight = "Bold" })
 config.font = wezterm.font("JetbrainsMonoNL NFM")
-base = 26.7
-scale = 1
-ratio = 1.08
+local base = 27
+local scale = 1
+local ratio = 1.05
 --]]
 --[[
 config.font = wezterm.font("IBM Plex Mono")
-base = 27
-scale = 1
-ratio = 1.05
+local base = 27
+local scale = 1
+local ratio = 1.05
 --]]
 --[[
 config.font = wezterm.font("Source Code Pro")
-base = 32
-scale = 1
-ratio = 1
+local base = 32
+local scale = 1
+local ratio = 1
 --]]
 --[[
 config.font = wezterm.font("input mono", { weight = "Regular" })
-base = 31
-scale = 1/0.8
-ratio = 1
+local base = 31
+local scale = 1/0.8
+local ratio = 1
 --]]
 --[[
 config.font = wezterm.font("roboto mono")
-base = 30
-scale = 1.42
-ratio = 1.06
+local base = 30
+local scale = 1.42
+local ratio = 1.06
 --]]
 --[[
 config.font = wezterm.font("hack")
-base = 32
-scale = 1.25
-ratio = 1
+local base = 32
+local scale = 1.25
+local ratio = 1
 --]]
 --[[
 config.font = wezterm.font("monocraft")
-base = 27
-scale = 1 / 1.25
-ratio = 1 / 1.08
+local base = 27
+local scale = 1 / 1.25
+local ratio = 1 / 1.08
 config.freetype_load_flags = "NO_HINTING"
 config.freetype_load_target = "Mono"
 --config.freetype_render_target = "None"
 --]]
 --[[	--too bunched up on one line
 config.font = wezterm.font("Fira Code")
-base = 31
-scale = 1
-ratio = 1.05
+local base = 31
+local scale = 1
+local ratio = 1.05
 --]]
 --[[
 config.font = wezterm.font("ibm plex mono")
-base = 31
-scale = 1/0.75
-ratio = 1.08
+local base = 31
+local scale = 1/0.75
+local ratio = 1.08
 --]]
 --[[
 config.font = wezterm.font("iosevka")
-base = 30
-scale = 1
-ratio = 1
+local base = 30
+local scale = 1
+local ratio = 1
 --]]
 --[[
 config.font = wezterm.font("Terminus")
-base = 24
-scale = 1 --.05
-ratio = 1 --.05
+local base = 24
+local scale = 1 --.05
+local ratio = 1 --.05
 --]]
 
 -- variables for smart font sizing
 local display_scale = 1.5
-local cols = 120
+local cols = 128
 local rows = 36
 local base = base * 1
 local scale = scale * 1.25 / ((rows / 24 + cols / 80) / 2)
