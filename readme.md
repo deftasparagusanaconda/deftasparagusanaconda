@@ -39,7 +39,7 @@ hi. im **lalremruata chongmang**. you can call me **daa**. im a self-studied mat
 
 # quirks
 - i use arch btw. and wezterm and neovim. 
-- i can type 110 steady/160 burst wpm on colemak-eD
+- i can type 120 steady/160 burst wpm with 97% accuracy on colemak-eD
 - independently rediscovered the gram-schmidt process from trying to generalize fourier transform from sine waves to triangle waves. i generalized this to orthogonal function bases as well.
 - independently rediscovered grothendieck group completion from trying to create new sign directions besides +ve and -ve
 
