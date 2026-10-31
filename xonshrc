@@ -118,6 +118,18 @@ def _ipq():
 		__xonsh__.ctx['pq'] = pq
 
 @aliases.register
+def _ipp():
+	try: 
+		del posit
+		del quire
+	except UnboundLocalError:
+		pass
+	finally:
+		from posit_python import posit, quire
+		__xonsh__.ctx['posit'] = posit
+		__xonsh__.ctx['quire'] = quire
+
+@aliases.register
 def _idd():
 	try: 
 		del dd
@@ -201,6 +213,7 @@ def _iall():
 #aliases['iall'] = ['iga', 'ipq;', 'idm;', 'ism;', 'iff']
 aliases['cdga'] = ['cd', '~/Projects/gapprox/src/gapprox/']
 aliases['cdpq'] = ['cd', '~/Projects/pyquantize/src/']
+aliases['cdpp'] = ['cd', '~/Projects/posit-python/']
 aliases['cddm'] = ['cd', '~/Projects/daamath/']
 aliases['cddmp'] = ['cd', '~/Projects/daamath-python/src/daamath']
 aliases['cddd'] = ['cd', '~/Projects/daadsp/']
@@ -762,18 +775,18 @@ def my_bottom_toolbar() -> str:
 		('cpu', cpu_stats),
 		('gpu', gpu_stats),
 		('ssd', ssd_stats),
-#		('sys', sys_stats),
+		('sys', sys_stats),
 		('env', env_stats),
 	]
 	
-	#wind_x, wind_y = window_size()
+	wind_x, wind_y = window_size()
 	#disp_x, disp_y = _resolution_getter.winfo_screenwidth(), _resolution_getter.winfo_screenheight()
 	#disp_str = f'{disp_x}x{disp_y}'
 	#size_str = f'{_resolution_getter.winfo_screenmmwidth()}mmx{_resolution_getter.winfo_screenmmheight()}mm'
-	#cell = (wind_y / rows) / (wind_x / cols)
-	#cell_str = str(round(cell, 1))
-#	cell_ratio = (res_y/term_rows) / (res_x / term_cols)
-#	cell_ratio_str = str(cell_ratio if int(cell_ratio) == cell_ratio else round(cell_ratio, 2))	
+	cell = (wind_y / rows) / (wind_x / cols)
+	cell_str = str(round(cell, 1))
+	#cell_ratio = (res_y/term_rows) / (res_x / term_cols)
+	#cell_ratio_str = str(cell_ratio if int(cell_ratio) == cell_ratio else round(cell_ratio, 2))	
 	
 	
 	right_stats = [
@@ -781,7 +794,7 @@ def my_bottom_toolbar() -> str:
 		('idfk', si_format(time.perf_counter() - start, 7, mode = 'si', show_sign = False) + 's'),
 		('user', $USER),
 		('host', $HOSTNAME),
-		#('term', f'{cols}x{rows}@{cell_str}'),
+		('term', f'{cols}x{rows}@{cell_str}'),
 		#('disp', disp_str),
 		('idfk', ''),
 		#('wind', f'{wind_x}x{wind_y}'),
