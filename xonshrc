@@ -40,8 +40,8 @@ $XONSH_STYLE_OVERRIDES['bottom-toolbar'] = 'noreverse'
 #import prompt_toolkit.styles.defaults as defstyle
 #defstyle.PROMPT_TOOLKIT_STYLE.append(('bottom-toolbar','noreverse'))
 #defstyle.PROMPT_TOOLKIT_STYLE.append(('completion-menu','bg:#444444 #eeeeee'))
-$PATH.insert(0, '/home/daa/.local/xonsh-env/bin')
-$PATH.insert(1, '/home/daa/.local/xonsh-env/xbin')
+#$PATH.insert(0, '/home/daa/.local/xonsh-env/bin')
+#$PATH.insert(1, '/home/daa/.local/xonsh-env/xbin')
 #$PATH.insert(0, $HOME + '/.pyenv/bin')
 #$PATH.insert(0, $HOME + '/.pyenv/shims')
 #execx($(pyenv init -))
@@ -550,7 +550,7 @@ def env_stats() -> str:
 	#terminal_str = $TERM_PROGRAM
 	shell_str = $SHELL.split('/')[-1]
 	xonsh_ver = $XONSH_VERSION
-	python_str = 'python ' + sys.version.split()[0]
+	python_str = 'python ' + sys.version.split()[0] + sys.abiflags
 
 	return f"xonsh {$XONSH_VERSION} ({python_str}) on {shell_str}"
 

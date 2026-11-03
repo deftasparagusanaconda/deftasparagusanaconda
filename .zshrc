@@ -110,16 +110,17 @@ export PATH=/home/daa/.local/xonsh-env/xbin:$PATH
 # for linux tty console 
 # ---------------------
 
-# disable the pc speaker beep
 setterm --blength=0
-
-# use colemak keyboard layout
-loadkeys ~/Projects/deftasparagusanaconda/mod-dh-ansi-us-wide.map
-
-# set custom font
+#sudo loadkeys ~/Projects/deftasparagusanaconda/mod-dh-ansi-us-wide.map
 setfont ~/Projects/deftasparagusanaconda/daa-34.psf
-
-# set custom color palette
-setvtrgb ~/Projects/deftasparagusanaconda/console_palette_oklab
-
+setvtrgb ~/Projects/deftasparagusanaconda/console_palette_oklab 
 kbdrate --delay=180 --rate=50
+
+# yazi wrapper, so it `cd`s when exitinUEg
+function y() {
+	local tmp cwd; tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd" || builtin true
+	command rm -f -- "$tmp"
+}

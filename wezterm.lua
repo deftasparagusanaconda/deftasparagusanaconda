@@ -316,6 +316,8 @@ config.keys = {
 }
 
 -- custom shell: spawn xonsh in login mode
-config.default_prog = { "/home/daa/.local/xonsh-env/bin/xonsh", "-l" }
+--config.default_prog = { "/home/daa/.local/xonsh-env/bin/xonsh", "-l" }
+config.default_prog = { "/home/daa/.local/bin/xonsh" }
+--config.default_prog = { "bash" }
 
 return config

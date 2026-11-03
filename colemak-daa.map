@@ -1,1 +1,130 @@
-/usr/local/share/kbd/keymaps/colemak-daa.map
+# daa-s console keymap for a Lenovo V15G4, based on dreymar-s colemak with extend layer (4caws)(http://colemakmods.github.io/mod-dh/)
+
+# we wont have superl and superr participate because theyre not as ubiquitous
+# shift       1 (homerow\'s leftmost)
+# control     4 (homerow\'s rightmost)
+# shiftl     16
+# shiftr     32
+# ctrll      64
+# ctrlr     128
+# alt         8
+# altgr       2
+# capsshift 256
+
+keymaps 0,1,64,80,16,32,4,20,8,2,9
+#             english    ENGLISH    ellinika   ELLINIKA   math       programming motion     motion+    altL       altR math+altL
+#keycode   1 = Escape
+keycode  59 = Console_1  VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_1
+keycode  60 = F2         VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_2
+keycode  61 = F3         VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_3
+keycode  62 = F4         VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_4
+keycode  63 = F5         VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_5
+keycode  64 = F6         VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_6
+keycode  65 = F7         VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_7
+keycode  66 = F8         VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_8
+keycode  67 = F9         VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_9
+keycode  68 = F10        VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_10
+keycode  87 = F11        VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_11
+keycode  88 = F12        VoidSymbol VoidSymbol VoidSymbol VoidSymbol VoidSymbol  VoidSymbol VoidSymbol Console_12
+#keycode 110 = 
+#keycode  99 = 
+#keycode 111 = 
+#keycode 164 = 
+#keycode 166 = 
+#keycode 165 = 
+#keycode 163 = 
+#             english    ENGLISH    ellinika   ELLINIKA   math       programming motion     motion+    altL       altR
+keycode  41 = Escape                
+keycode   2 = 
+keycode   3 =           
+keycode   4 =         
+keycode   5 =          
+keycode   6 =          
+keycode   7 =           
+keycode   8 =         
+keycode   9 =         
+keycode  10 =         
+keycode  11 =          
+keycode  12 =          
+keycode  13 =         
+keycode  14 = 
+keycode  69 = Num_Lock
+keycode  98 = 
+keycode  55 = 
+keycode  74 = 
+#             english       ENGLISH    ellinika   ELLINIKA   math       programming motion     motion+    altL       altR
+# αγδεζηθικμνξορστχψ
+keycode  15 = Return
+keycode  16 = VoidSymbol    VoidSymbol 
+keycode  17 = w             two          
+keycode  18 = f             F          
+keycode  19 = p             P          
+keycode  20 = b             B          
+#keycode  21 =  
+keycode  22 = j             J         
+keycode  23 = l             L          
+keycode  24 = u             U          
+keycode  25 = y             Y          
+keycode  26 = VoidSymbol    VoidSymbol
+#keycode  27 = 
+keycode  43 = Tab
+#keycode  71 = 
+#keycode  72 = 
+#keycode  73 = 
+#keycode  78 = 
+#             english    ENGLISH    ellinika   ELLINIKA   math       programming motion     motion+    altL       altR
+keycode  58 = Shift      Shift      Shift      Shift      Shift      Shift       Shift      Shift      Shift      Shift
+keycode  30 = a          A    
+keycode  31 = r          R  
+keycode  32 = s          S 
+keycode  33 = t          T
+keycode  34 = g          G            
+#keycode  35 = 
+keycode  36 = m          M           
+keycode  37 = n          N          BackSpace 
+keycode  38 = e          E          
+keycode  39 = i          I         
+keycode  40 = o          O        
+keycode  28 = Control    Control    Control    Control    Control    Control    Control    Control    Control    Control    
+#keycode  75 = 
+#keycode  76 = 
+#keycode  77 = 
+#             english    ENGLISH    ellinika   ELLINIKA   math       programming motion     motion+    altL       altR
+keycode  42 = ShiftL     ShiftL     ShiftL     ShiftL     ShiftL     ShiftL      ShiftL     ShiftL     ShiftL     ShiftL      
+keycode  44 = x          X            
+keycode  45 = c          C           
+keycode  46 = d          D          
+keycode  47 = v          V          
+#keycode  48 =  
+#keycode  49 = 
+keycode  50 = k          K       
+keycode  51 = h          H      
+keycode  52 = q          Q
+keycode  53 = z          Z
+keycode  54 = ShiftR     ShiftR     ShiftR     ShiftR     ShiftR     ShiftR      ShiftR     ShiftR     ShiftR     ShiftR     
+keycode  79 = Console_1
+#keycode  80 = KP_2
+#keycode  81 = KP_3
+#             english    ENGLISH    ellinika   ELLINIKA   math       programming motion     motion+    altL       altR
+keycode  29 = CtrlL      CtrlL      CtrlL      CtrlL      CtrlL      CtrlL       CtrlL      CtrlL      CtrlL      CtrlL     
+#keycode 125 = 
+keycode  56 = Alt
+keycode  57 = space
+keycode 100 = AltGr      AltGr      AltGr      AltGr      AltGr      AltGr      AltGr       AltGr      AltGr      AltGr      
+keycode  97 = CtrlR      CtrlR      CtrlR      CtrlR      CtrlR      CtrlR      CtrlR       CtrlR      CtrlR      CtrlR    
+keycode 105 = Left
+keycode 103 = Up
+keycode 108 = Down
+keycode 106 = Right
+#keycode  82 = 
+#keycode  83 = 
+
+# -----
+# mouse
+# -----
+
+#keycode 272
+#keycode 273
+#keycode 274
+#keycode 275
+#keycode 276
