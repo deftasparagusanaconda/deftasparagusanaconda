@@ -324,7 +324,7 @@ def intensity_fg_old(fraction, low = 0, high = 1, reverse = False):
 intensity_hues = [fg_color[hue] for hue in ['brblue', 'brcyan', 'brgreen', 'bryellow', 'brred']]
 intensity_hues_reverse = list(reversed(intensity_hues))
 def intensity_fg(fraction, low = 0, high = 1, reverse = False):
-	fraction = (fraction - low) / (high - low)
+	fraction = (fraction - low) / (high - low) if high != low else 0.5
 	hue = int(fraction * 5) % 5	
 	return intensity_hues_reverse[hue] if reverse else intensity_hues[hue]
 
@@ -332,7 +332,7 @@ def intensity_bar(fraction, low = 0, high = 1, fill:str='none', back:str='none',
 	#if not (low <= fraction <= high):
 	#	raise ValueError("fraction must be in [low, high]")
 	fraction = min(max(fraction, low), high)
-	fraction = (fraction - low) / (high - low)
+	fraction = (fraction - low) / (high - low) if high != low else 0.5
 	index = round(min(max(fraction, 0.0), 1.0) * 8)
 	return f"{intensity_fg(fraction, reverse = reverse_color) if color else fg_color[fill]}{bg_color[back]}{' ▁▂▃▄▅▆▇█'[index]}{reset_colour}"
 
